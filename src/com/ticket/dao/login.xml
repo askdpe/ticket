@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ticket.dao.ILoginMapper">
+	<resultMap type="com.ticket.entity.Login" id="LoginResults">
+		<id column="login_name" property="lname" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="login_pwd" property="lpwd" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="role" property="role" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="login_register" property="lregister" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="login_time" property="ltime" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="login_picture" property="lpicture" jdbcType="VARCHAR"
+			javaType="String" />
+	</resultMap>
+	<select id="isLoginer" resultMap="LoginResults" parameterType="String">
+		select * from login where login_name = #{0} and login_pwd = #{1};
+	</select>
+	<update id="recordLoginTime" parameterType="String">
+		update login set
+		login_time = now() where login_name = #{0};
+	</update>
+</mapper>

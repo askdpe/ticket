@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)http://localhost:8080/selectShow?movie_id=1 -->
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SelectShow</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<script type="application/x-javascript">
+			addEventListener("load", function() {
+				setTimeout(hideURLbar, 0);
+			}, false);
+
+			function hideURLbar() {
+				window.scrollTo(0, 1);
+			}
+		</script>
+		<!--frameworks-->
+		<script src="./SelectShow_files/jquery-2.1.4.min.js"></script>
+		<script src="./SelectShow_files/bootstrap.min.js"></script>
+		<link href="./SelectShow_files/bootstrap.css" rel="stylesheet" type="text/css">
+		<!--//frameworks-->
+
+		<link href="./SelectShow_files/style.css" rel="stylesheet" type="text/css" media="all">
+		<link href="./SelectShow_files/style(1).css" rel="stylesheet" type="text/css" media="all">
+		<link href="./SelectShow_files/common.css" rel="stylesheet" type="text/css" media="all">
+		<script src="./SelectShow_files/clickShow.js"></script>
+		<script src="./SelectShow_files/post.js"></script>
+
+		<style id="style-1-cropbar-clipper">
+			/* Copyright 2014 Evernote Corporation. All rights reserved. */
+			
+			.en-markup-crop-options {
+				top: 18px !important;
+				left: 50% !important;
+				margin-left: -100px !important;
+				width: 200px !important;
+				border: 2px rgba(255, 255, 255, .38) solid !important;
+				border-radius: 4px !important;
+			}
+			
+			.en-markup-crop-options div div:first-of-type {
+				margin-left: 0px !important;
+			}
+		</style>
+		
+		
+		
+		
+
+		 <script type="application/javascript">
+		 //获取URL的属性
+		 
+		 var GetQueryString = function(key) {
+			    var search = decodeURIComponent(location.search);
+			    var reg = new RegExp(".*" + key + "\\=" + "([^&]*)(&?.*|)", "g");
+			    return search.replace(reg, "$1");
+			}
+
+		 
+		 /*获取日期信息和基本信息*/
+			
+			$(function() {
+			
+				/*  alert(GetQueryString("name")); */
+				 	$.ajax({
+						type : "post",
+						url : "/TicketCircle/userBuyFilm/allbeontime.action",
+					 	data: {
+                            "filmname": GetQueryString("name")
+                        },	
+			
+						success : function(result) {
+							
+						 	
+						   var obj=JSON.parse(result);
+							
+							var obj0= obj[0];
+							 
+							$.each(obj0,function(index,value){
+								var a="<option id='date+"+index+"' value='"+value+"'>"+value+"</option>"
+								$("#doc-select-1").append(a);
+							});
+							var obj1=obj[1];
+							for(var key in obj1){
+								if(key=='picture'){
+									$("#picture").attr("src",obj1[key]);
+								}else{
+									$("#"+key).append(obj1[key]);
+								}
+		  					
+							}
+							
+						},
+						error : function() {
+							alert("获取服务器失败");
+						} 
+					}); 
+				
+				 setTimeout(function(){
+					 $.ajax({
+							type:"post",
+							url:"/TicketCircle/userBuyFilm/allbeondetail.action",
+							data:{
+								"date":$("#doc-select-1").val(),
+								"movename":$("#name").html(),
+							},
+							success:function(result){
+								 var obj=JSON.parse(result);
+								 $.each(obj,function(index,value){
+									 var theatrename = index;
+									var str="<div class='movie-date-selection' id='"+index+"'><ul><li class='location'><span>"+index+"</span></li>";
+								
+									 $.each(value,function(index,value){						    
+											    str+="<li class='time'><a name='ABC' href='javascript:getBeonInfo(" +"\""+ theatrename+ "\""+ ","+"\""+ value["yingTing"]+ "\""+ ","+"\""+ value["time"]+ "\""+ ","+"\""+ value["price"]+ "\")'>"+"影厅："+value["yingTing"]+"<br/>"+" 时间："+value["time"]+"<br/>"+" 票价："+value["price"]+"</a></li>";  
+											
+											});
+									 str+="</ul></div>"
+									 $("#yingting").append(str);
+									 
+									});
+							}
+						}); 
+				 },500);
+				 	
+		});
+		 
+			
+		 
+		 //传递日期获取影厅信息
+		 
+			 $(document).ready(aaa); 
+			function aaa() {
+				$("#doc-select-1").bind("change",bbb);
+			}
+			function bbb() {
+				if($("#doc-select-1").val() == 0) {
+					return;
+				} else {
+					  $.ajax({
+						type:"post",
+						url:"/TicketCircle/userBuyFilm/allbeondetail.action",
+						data:{
+							"date":$("#doc-select-1").val(),
+							"movename":$("#name").html(),
+						},
+						success:function(result){
+							 var obj=JSON.parse(result);
+							 $("#yingting").empty();
+							 $.each(obj,function(index,value){
+								 var theatrename = index;
+								var str="<div class='movie-date-selection' id='"+index+"'><ul><li class='location'><span>"+index+"</span></li>";
+								 $.each(value,function(index,value){		
+									 str+="<li class='time'><a name='ABC' href='javascript:getBeonInfo(" +"\""+ theatrename+ "\""+ ","+"\""+ value["yingTing"]+ "\""+ ","+"\""+ value["time"]+ "\""+ ","+"\""+ value["price"]+ "\")'>"+"影厅："+value["yingTing"]+"<br/>"+" 时间："+value["time"]+"<br/>"+" 票价："+value["price"]+"</a></li>";  
+								});
+								 str+="</ul></div>"
+								 $("#yingting").append(str);
+								 
+								});
+						}
+					});  
+				}
+			}
+			 function getBeonInfo(theatrename,hallname,beontime,price) {
+				 	var datetime=$("#doc-select-1").val()+" "+beontime+":00";
+				 	var filmname=$("#name").html();
+					//alert(filmname+","+hallname+","+datetime+","+price);
+					$.ajax({
+						type : "get",
+						url : "/TicketCircle/userBuyFilm/selectseat.action",
+						data : {
+							"theatrename" : theatrename,
+							"filmname" : filmname,
+							"hallname" : hallname,
+							"datetime" : datetime,
+							"price" : price
+						},
+						success : function(result) {
+							if(result){
+								window.location.href = "choose.jsp";
+							}else{
+								alert("seatinfo false");
+							}
+						},
+						error : function() {
+							alert("获取服务器失败");
+						}
+					});
+
+				}
+
+		</script> 
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="container_wrap">
+				<div class="header_top">
+					<div class="col-sm-3 logo">
+						<a href=""><img src="./img/logo.png" alt=""></a>
+					</div>
+					<div class="col-sm-6 nav my">
+						<h2 style="color: red;font-family: '楷体';">票圈儿电影票，花最少的钱，买最好的票</h2></div>
+					<div class="col-sm-3 header_right">
+						<ul class="header_right_box">
+							<!--<li>
+						<img src="./img/p1.png" alt="icon">
+					</li>-->
+							<li>
+								<p>
+									<a style="cursor:default;" href=""><br /> 返回首页 </a>
+									<!--<a href=""><img src="./img/logout.png" style="width:20px; margin-left: 3px; height:25px;"></a>-->
+
+								</p>
+							</li>
+
+							<div class="clearfix"> </div>
+						</ul>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="content">
+					<div class="now-showing-list">
+						<div class="col-md-4 movies-by-category movie-booking">
+							<div class="movie-ticket-book">
+								<div class="clearfix"></div>
+								<img id="picture" src="" alt="poster">
+								<div class="bahubali-details">
+									<h4>播放日期:</h4>
+									<select id="doc-select-1">	
+									</select>
+									<h4>影片名称:</h4>
+									<p id="name"></p>
+									<h4>影片时长:</h4>
+									<p id="length"></p>
+									<h4>导演:</h4>
+									<p id="director"></p>
+									<h4>演员:</h4>
+									<p id="performer"></p>
+									<h4>语言:</h4>
+									<p id="language"></p>
+									<h4>影片类型:</h4>
+									<p id="type"></p>
+									<h4>制片国家地区:</h4>
+									<p id="area"></p>	
+									<h4>剧情简介:</h4>
+									<p id="synopsis">
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-8 movies-dates" id="yingting">
+							
+						</div>
+
+						<div class="col-md-8 movies-dates">
+							<div class="movie-date-selection">
+								<ul>
+									<li class="location">
+										<span>网友评价：</span>
+									</li>
+									<li class="time">
+										<a name="UKnow" href="">这个超级棒！！！</a>
+									</li>
+								</ul>
+								<ul>
+									<li class="location">
+										<span>网友评价：</span>
+									</li>
+									<li class="time">
+										<a name="UKnow" href="">这个超级棒！！！</a>
+									</li>
+								</ul>
+							</div>
+
+						</div>
+						<div class="clearfix"></div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>

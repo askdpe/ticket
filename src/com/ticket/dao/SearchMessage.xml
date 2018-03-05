@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ticket.dao.SearchMessage">
+    <resultMap id="Mymessagesults" type="com.ticket.entity.message">
+     <id column="mid" property="mid" jdbcType="INTEGER" javaType="Integer" />      
+     <result column="talker" property="talker" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="reader" property="reader" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="content" property="content" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="time" property="time" jdbcType="VARCHAR" javaType="string"/>
+      <result column="name" property="name" jdbcType="VARCHAR" javaType="string"/>  
+       <result column="talkername" property="talkername" jdbcType="VARCHAR" javaType="string"/>  
+    </resultMap>  
+     <resultMap id="Frendresult" type="com.ticket.entity.friend">
+     <id column="fid" property="fid" jdbcType="INTEGER" javaType="Integer" />      
+ 	<association property="uname1"  javaType="com.ticket.entity.userinfo" resultMap="Userinforesult"/>
+ 	<association property="uname2"  javaType="com.ticket.entity.userinfo" resultMap="Userinforesult"/>
+    </resultMap> 
+     <resultMap id="Userinforesult" type="com.ticket.entity.userinfo">
+     <result column="uname" property="uname" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="user_picture" property="user_picture" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="user_comments" property="user_comments" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="name" property="name" jdbcType="VARCHAR" javaType="string"/> 
+    </resultMap>  
+    <select id="GetMessageinfo" resultMap="Mymessagesults" parameterType="com.ticket.entity.message">
+      (select m.content,m.time,m.talker,m.reader,u.name,l.name as "talkername" from message m  ,user u ,user l where talker=#{reader} and u.uname=m.reader and l.uname=m.talker) union (select m.content,m.time,m.talker,m.reader,u.name,l.name from message m ,user u,user l where reader=#{reader} and u.uname=m.reader and l.uname=m.talker) order by time DESC;
+    </select>
+      <select id="GetMyfriend" resultMap="Userinforesult" 
+       parameterType="com.ticket.entity.userinfo">
+      select user_picture,user_comments,name,uname from user where uname in (select uname1 from friend where uname2=#{uname} union select uname2 from friend where uname1=#{uname} )    
+    </select>
+          <select id="addsearchfriend" resultMap="Userinforesult" 
+       parameterType="com.ticket.entity.userinfo">
+     select name from user where name like #{name};  
+    </select>
+    <select id="searchfriend" resultMap="Userinforesult" 
+       parameterType="com.ticket.entity.userinfo">
+      select user_picture,user_comments,name,uname from user where name=#{name}
+      </select>
+</mapper>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ticket.dao.SearchDingdan">
+    <resultMap id="MyDingdanResults" type="com.ticket.entity.dingdan">
+     <id column="did" property="did" jdbcType="INTEGER" javaType="Integer" />  
+      <id column="pagesize" property="pagesize" jdbcType="INTEGER" javaType="Integer" />  
+       <id column="page" property="page" jdbcType="INTEGER" javaType="Integer" />        
+     <result column="dtype" property="dtype" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="uname" property="uname" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="dname" property="dname" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="dpay" property="dpay" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="dtime" property="dtime" jdbcType="VARCHAR" javaType="string"/>
+      <result column="dcomment" property="dcomment" jdbcType="VARCHAR" javaType="string"/>  
+    </resultMap>  
+    <select id="GetMyDingdaninfo" resultMap="MyDingdanResults" parameterType="com.ticket.entity.dingdan">
+      select dtype,dname,dtime,dpay,dcomment from mydingdan where uname= #{uname} order by dtime  limit #{page},#{pagesize};
+    </select>
+   <select id="GetMaxPageNumOfAll" resultType="int" parameterType="com.ticket.entity.dingdan">
+      select count(*) from mydingdan where uname= #{uname};
+    </select>
+    <select id="GetMaxPageNumOfSaveAll" resultType="int" parameterType="com.ticket.entity.dingdan">
+      select count(*) from savedingdan where uname= #{uname};
+    </select>
+    <select id="GetSaveDingdaninfo" resultMap="MyDingdanResults" parameterType="com.ticket.entity.dingdan">
+       select dtype,dname,dtime,dpay,dcomment from savedingdan where uname= #{uname} order by dtime  limit #{page},#{pagesize};
+    </select>
+</mapper>

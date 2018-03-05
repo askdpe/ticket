@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须对应接口的路径，类似该xml配置文件是该接口的"实现类"-->
+<mapper namespace="com.ticket.dao.IUsersMapper">
+    <!-- 实体类对象和mysql表的对应关系 .当前xml只有id="UserResults"是自定义的
+    jdbcType是DB字段类型，但是有效值是INTEGER和VARCHAR，mysql datatime类型mybatis无法识别-->
+    <resultMap id="UserResults" type="com.ticket.entity.Users">
+     <result column="uname" property="uname" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="name" property="name" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="user_pwd" property="upwd" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="user_phone" property="uphone" jdbcType="VARCHAR" javaType="string"/>
+     <result column="user_email" property="uemail" jdbcType="VARCHAR" javaType="string"/>     
+     <result column="user_register_time" property="uregister" jdbcType="VARCHAR" javaType="string"/>     
+     <result column="user_login_time" property="ulogin" jdbcType="VARCHAR" javaType="string"/>     
+     <result column="user_picture" property="upicture" jdbcType="VARCHAR" javaType="string"/>     
+     <result column="user_comments" property="ucomments" jdbcType="VARCHAR" javaType="string"/>     
+    </resultMap>      
+   <!-- 针对接口方法名操作具体的xml"实现类" id属性一定要和接口名一致，
+   相似的理解<select>是接口方法名对应的方法体  #{2}：就是赋值的第二个参数-->
+    <select id="SelectUserinfoByUname" resultMap="UserResults">
+		select uname,name,user_phone,user_email,user_picture from user where uname=#{uname};
+    </select>
+    <select id="CheckUserName" resultType="java.lang.Integer">
+        select count(*) from user where uname = #{uname};
+    </select>
+    <select id="Login" resultType="java.lang.Integer">
+        select count(*) from user where uname = #{uname} and user_pwd = #{upwd};
+    </select>
+    <insert id="AddUser"  parameterType="com.ticket.entity.Users">
+    	insert into user(uname,name,user_pwd,user_phone,user_email,user_register_time) value(#{uname},#{name},#{upwd},#{uphone},#{uemail},#{uregister});
+    </insert>
+    <update id="UpdateLoginTime" parameterType="com.ticket.entity.Users">
+    	update user set user_login_time=#{ulogin} where uname=#{uname};
+    </update>
+    <update id="UpdatePassword" parameterType="com.ticket.entity.Users">
+    	update user set user_pwd=#{upwd} where uname=#{uname};
+    </update>
+    <update id="UpdateUserInfo" parameterType="com.ticket.entity.Users">
+    	update user set user_phone=#{uphone}, user_email=#{uemail}, name=#{name} where uname=#{uname};
+    </update>
+    <update id="UpdateUserPicture" parameterType="com.ticket.entity.Users">
+    	update user set user_picture=#{upicture} where uname=#{uname};
+    </update>
+    <delete id="DeleteUsers" parameterType="int">
+      delete from users where uid = #{1}
+    </delete>
+</mapper>

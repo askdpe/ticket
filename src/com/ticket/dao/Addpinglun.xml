@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ticket.dao.Addpinglun">
+  <resultMap id="RemarkResults" type="com.ticket.entity.remark">
+     <id column="rid" property="rid" jdbcType="INTEGER" javaType="Integer" />  
+      <id column="pagesize" property="pagesize" jdbcType="INTEGER" javaType="Integer" />  
+       <id column="page" property="page" jdbcType="INTEGER" javaType="Integer" />        
+     <result column="rplace" property="rplace" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="uname" property="uname" jdbcType="VARCHAR" javaType="string"/>  
+      <result column="name" property="name" jdbcType="VARCHAR" javaType="string"/> 
+     <result column="rtime" property="rtime" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="rscore" property="rscore" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="rcomment" property="rcomment" jdbcType="VARCHAR" javaType="string"/>  
+    </resultMap>  
+    <select id="SearchPinglunofflim" resultMap="RemarkResults" parameterType="com.ticket.entity.remark">
+      select rid,rplace,rtime,rscore,rcomment,name from remark r,user u where rplace= #{rplace} and u.uname=r.uname order by rtime desc ;
+    </select>
+      <insert id="Addmypinglun"  parameterType="com.ticket.entity.remark">
+      insert into remark(rplace,rtime,rscore,rcomment,uname,type) values(#{rplace},now(),#{rscore},#{rcomment},#{uname},"2")
+    </insert>
+</mapper>

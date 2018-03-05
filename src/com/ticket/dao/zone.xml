@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ticket.dao.IZoneMapper">
+	<resultMap type="com.ticket.entity.Zone" id="ZoneResults">
+		<id column="zone_id" property="zone_id" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="zone_name" property="zone_name" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="city_id" property="city_id" jdbcType="VARCHAR"
+			javaType="String" />
+	</resultMap>
+	<select id="getZoneInfoAll" resultMap="ZoneResults">
+		select * from zone;
+	</select>
+</mapper>

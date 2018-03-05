@@ -1,0 +1,522 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="keywords" content="">
+		<meta name="description" content="">
+		<link rel="stylesheet" href="css/safe/css.css" />
+		<link rel="stylesheet" href="css/safe/common.min.css" />
+		<link rel="stylesheet" href="css/safe/ms-style.min.css" />
+		<link rel="stylesheet" href="css/safe/personal_member.min.css" />
+		<link rel="stylesheet" href="css/sui.css" />
+		<script type="text/javascript" src="js/jquery-1.9.1.min.js" ></script>
+		<script type="text/javascript" src="js/sui.js" ></script>
+		<style>
+		body {
+		    background: #f5f5f5;
+		}
+			.sui-table th{
+		    padding: 16px 8px;
+		    line-height: 18px;
+		    text-align: center;
+		    vertical-align: middle;
+		    border-top: 1px solid #e6e6e6;
+		    font-weight: normal;
+		    font-size: 14px;
+		    color: #333333;
+		   }
+		   .sui-table td {
+		    padding: 16px 8px;
+		    line-height: 18px;
+		    text-align: center;
+		    vertical-align: middle;
+		    border-top: 1px solid #e6e6e6;
+		    font-weight: normal;
+		    font-size: 12px;
+		    color: #333333;
+		   }
+	img {
+	    max-width: 100%;
+	    height: auto;
+	    /*vertical-align: bottom;*/
+	    border: 0;
+	    -ms-interpolation-mode: bicubic;
+	    margin-left: -10px;
+	}
+a{
+	color: #000000;
+}
+#searchbox {
+ margin-top:10px;
+ height:37px;
+ width:550px;
+}
+#searchbox div {
+ float:left;
+} 
+#txtTitle {
+ height:35px;
+ width:440px;
+ line-height:35px;
+ border:solid 1px #4791FF;
+}
+#btnSelect a{
+ width:100px;
+ height:37px;
+ background:#FF7700;
+ display:block;
+ line-height:37px;
+ color:#ffffff;
+ text-align:center; 
+}
+a:link {
+ text-decoration:none;
+}
+a:hover {
+ cursor:pointer;
+}
+#dtitles {
+ width:540px;
+ height:90px;
+ border:solid 1px #CCCCCC;
+ display:none;
+ font-size:12px;
+}
+.li1 {
+ background:#F0F0F0;
+}
+		</style>
+	</head>
+
+	<body class="ms-body">
+		
+		<header class="ms-header ms-header-inner ms-head-position">
+			<article class="ms-header-menu">
+				<style type="text/css">
+					.nav-manage .list-nav-manage {
+						position: absolute;
+						padding: 15px 4px 10px 15px;
+						left: 0;
+						top: -15px;
+						width: 90px;
+						background: #FFF;
+						box-shadow: 1px 1px 2px #e3e3e3, -1px 1px 2px #e3e3e3;
+						z-index: 10;
+					}
+					
+					.ms-nav li {
+						float: left;
+						position: relative;
+						padding: 0 20px;
+						height: 44px;
+						font: 14px/26px "Microsoft YaHei";
+						color: #FFF;
+						cursor: pointer;
+						z-index: 10;
+					}
+					.personal-member .main-wrap {
+    width: 1068px;
+    margin: 15px 0 30px 180px;
+    padding: 0 0 39px 0;
+    border: 1px solid #ddd;
+    background: none;
+}
+				</style>
+				<div class="header-menu">
+					<div class="ms-logo">
+						<a class="ms-head-logo" name="Myyigou_index_none_daohangLogo"><span style="font-size: 30px;color: #fff;font-weight: bold;    line-height: 28px;;">票儿圈</span></a>
+					</div>
+					<nav class="ms-nav">
+						<ul>
+							<li class="">
+								<a href="perindex.html" data-url="" >首页</a><i class="nav-arrow"></i></li>
+							<li class="nav-manage selected">
+								<a href="permanage.html" data-url="" >账户管理</a><i class="nav-arrow" hidden></i>
+							</li>
+							<li class="ms-nav-msg" ><a href="message.html" data-url="" style="    padding-bottom: 17px;border-bottom: 3px #fff solid;">消息</a><i class="nav-arrow"></i></li>
+						</ul>
+						<div class="ms-search">
+							<form>
+								<input id="" type="text" value="">
+								<img src="img/搜索.png"  style="height: 10px;width: 10px;float: right;margin-right: 10px;" />
+							</form>
+						</div>
+					</nav>
+				</div>
+
+			</article>
+
+			<article class="ms-useinfo">
+				<div class="header-useinfo" id="">
+						<div class="ms-avatar">
+						<div class="useinfo-avatar">
+							<img src="img/tx.jpg" id="mytx">
+							<div class="edit-avatar"></div>
+							<a class="text-edit-avatar">修改</a>
+						</div>
+						<a id="name" href="permanage.html"></a>
+					</div>
+
+					<div class="ms-name-info">
+						<div class="info-member">
+							<span class="name-member member-1">
+        				 <i></i><a target="_blank" >会员等级</a></span>
+						</div>
+					</div>
+				</div>
+
+			</article>
+		</header>
+		<div class="cont-main">
+					<div class="main-wrap mt15" style="border: 0px;">
+						<h3 style="background-color: #fff;">
+	                        <strong>我的消息</strong>
+	                    </h3>
+						<div class="server-wrapper">
+							<div class="server-tab" style="margin-top: 48px;">
+								<ul class="sui-nav nav-tabs" style="margin-top: 47px;width: 1000px;margin-left: 30px;">
+								  <li><a href="#shequ"  data-toggle="tab">社区</a></li>
+								  <li class="active" ><a href="#profile" data-toggle="tab">私信</a></li>
+								  <li><a href="#friend" data-toggle="tab">好友</a></li>
+								   <li><a href="#addfriend" data-toggle="tab">添加好友</a></li>
+								</ul>
+								<div class="tab-content" style="width: 1000px;margin-top: 0px;border:1px #fff solid; border-top:transparent;margin-left: 30px;">
+								  <div id="shequ" class="tab-pane" style="padding: 0px 30px;">
+								  	<dl style="margin-left: -10px;"><span class="spand"></span>社区消息</dl>
+								  	<div style="width: 950px;margin-top: 22px;margin-bottom:10px;border-bottom: 1px #ccc solid;height: 188px;">
+								  		<div style="float: left;">
+								  			<img src="img/ad/ad1.jpg" style="min-width: 165px !important;height: 165px;" />
+								  		</div>
+								  		<div style="float: left;margin-left: 20px;">
+								  		  <dl style="margin-top: 83px;font-size: 12px;color: #bcbcbc;">来自票儿圈的推荐 <font style="color: #F2873B;">票儿圈</font></dl>
+								  		</div>
+								  	</div>
+								  	 <div style="width: 900px;margin-top: 30px;text-align: right;">
+								    	<span class="fengye"> 上一页 </span>
+								    	<span class="fengye" style="background-color: #F2873B;color: #fff;">1</span>
+								    	<span class="fengye" style="background-color: #fff;color: #333333;">2</span>
+								    	<span class="fengye" style="background-color: #fff;color: #333333;">3</span>
+								    	<span class="fengye" style="background-color: #fff;color: #333333;">4</span>
+								    	<span class="fengye" style="background-color: #fff;color: #333333;">5</span>
+								    	.....
+								    	<span class="fengye">下一页</span>
+								    </div>
+								  	
+								  </div>
+								  <div id="profile" class="tab-pane active"  style="padding-top:0 px;">
+						            <div id="messagebody">
+                                    
+
+                                   </div>
+								
+								</div>
+								<div id="friend" class="tab-pane" style="padding-top:0 px;">
+				
+							<div id="myfriend">
+						</div>
+								
+						</div>
+							<div id="addfriend" class="tab-pane" style="padding-top:0 px;">
+				<div id="searchbox">
+ <div><input type="text" id="txtTitle" /></div>
+ <div id="btnSelect"><a href="javascript:findfriend();">搜索</a></div>
+</div>
+<div id="dtitles"></div>
+							<div id="addf">
+						</div>
+								
+						</div>
+								
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="ng-footer ">
+
+			<textarea class="footer-dom " id="footer-dom-02 ">
+			</textarea>
+			<div class="ng-fix-bar "></div>
+		</div>
+		<style type="text/css ">
+		
+			.ng-footer {
+				height: 130px;
+				margin-top: 0;
+			}
+		
+			
+			.ng-s-footer {
+				height: 130px;
+				background: none;
+				text-align: center;
+			}
+			
+			.ng-s-footer p.ng-url-list {
+				height: 25px;
+				line-height: 25px;
+			}
+			
+			.ng-s-footer p.ng-url-list a {
+				color: #666666;
+			}
+			
+			.ng-s-footer p.ng-url-list a:hover {
+				color: #f60;
+			}
+			
+			.ng-s-footer .ng-authentication {
+				float: none;
+				margin: 0 auto;
+				height: 25px;
+				width: 990px;
+				margin-top: 5px;
+			}
+			
+			.ng-s-footer p.ng-copyright {
+				float: none;
+				width: 100%;
+			}
+			
+			.root1200 .ng-s-footer p.ng-copyright {
+				width: 100%;
+			}
+		</style>
+	<script type="text/javascript " src="js/safe/ms_common.min.js "></script>
+	<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+	<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+		 <script  type="text/javascript">
+		 var name;
+		$(function() {
+			getmyinfo();
+			getmessageinfo();
+		    getfriendinfo();
+		    $("#txtTitle").keyup(function ()
+		    		 {
+		    		  //2.获取到文本框的内容,注意去空格
+		    		  var title = $.trim($("#txtTitle").val());
+		    		  //3.获取到输入的内容之后，就要通过ajax传给后台
+		    		  $.post("message/addfriend.action", { "title": title }, function (data)
+		    		  {
+		    		   if (title == "") {
+		    		    $("#dtitles").hide();
+		    		   }
+		    		   else
+		    		   {
+		    		    //显示展示div,把它清空
+		    		    $("#dtitles").show().html("");
+		    		    if (data == "") {
+		    		     $("#dtitles").text("没有相关数据!");
+		    		    }
+		    		    else {
+		    		     $("#dtitles").append(data);
+		    		     //4.鼠标移上去之后，加一个背景
+		    		     $("li").hover(function ()
+		    		     {
+		    		      $(this).addClass("li1");
+		    		     }, function ()
+		    		     {
+		    		      $(this).removeClass("li1");
+		    		     });
+		    		    }
+		    		   }
+		    		  });
+		    		 });
+		 
+		});
+
+		
+		function foreachJSON(result) {		
+			var str1 = "";
+			$.each(result,function(index, key) {
+				if(key.reader==name){
+						key.reader="您";
+						str1 +='<div style="border: 1px #ccc solid;width: 1000px;height: 113px;display: inline-block;"><div style="float: left;padding-top: 21px;margin-left: 17px;"><img width="80" height="80" src='
+							+key.ttx	
+							+'></div><div style="float: left;margin-left: 10px;padding-top: 35px;"><dl style="font-size: 12px;color: #686868;"><font style="color: #F2873B;">'
+							+key.reader
+							+'</font>&nbsp;&nbsp;对'
+							+key.talker
+							+'说：&nbsp;&nbsp;'
+							+key.content
+							+'</dl><dl style="font-size: 12px;color: #686868;">'
+							+key.time
+							+'</dl></div><div style="float: right;padding-top: 50px;"></div></div>';
+				}
+				else{
+					key.talker="您"
+						str1 +='<div style="border: 1px #ccc solid;width: 1000px;height: 113px;display: inline-block;"><div style="float: left;padding-top: 21px;margin-left: 17px;"><img width="80" height="80" src='
+							+key.tx	
+							+'></div><div style="float: left;margin-left: 10px;padding-top: 35px;"><dl style="font-size: 12px;color: #686868;"><font style="color: #F2873B;">'
+							+key.reader
+							+'</font>&nbsp;&nbsp;对'
+							+key.talker
+							+'说：&nbsp;&nbsp;'
+							+key.content
+							+'</dl><dl style="font-size: 12px;color: #686868;">'
+							+key.time
+							+'</dl></div><div style="float: right;padding-top: 50px;"><input type="button" onclick=sendmess('
+							+key.uname
+							+','
+							+key.name
+							+') value="回复"  style="margin-right:20px;width: 46px;height: 20px;color: #F88600;background-color: #fff;border: 1px #F88600 solid;"/></div></div>';
+			}
+				
+							});
+			
+			$("#messagebody").html(str1);
+		}
+function foreachJSON1(result) {
+			var str1 = "";
+			$.each(result,function(index, key) {	
+						str1 +='<div style="border: 1px #ccc solid;width: 1000px;height: 113px;display: inline-block;"><div style="float: left;padding-top: 21px;margin-left: 17px;"><img width="80" height="80" src='
+						+key.ftx
+						+'></div><div style="float: left;margin-left: 10px;padding-top: 35px;"><dl style="font-size: 12px;color: #686868;"><font style="color: #F2873B;">'
+						+key.fname
+						+'</font>&nbsp;&nbsp;&nbsp;&nbsp;'
+						+key.fcomments
+						+'</dl></div><div style="float: right;padding-top: 50px;"><input type="button" onclick=sendmess('
+						+key.funame
+						+','
+						+key.name
+						+') value="发送消息"  style="margin-right:20px;width: 46px;height: 20px;color: #F88600;background-color: #fff;border: 1px #F88600 solid;"/></div></div>';
+							});
+			$("#friend").html(str1);
+		}
+	
+		function getfriendinfo()
+		{
+			$.ajax({
+				type : "post",
+				url : "message/friend.action",
+				success : function(result) {
+					foreachJSON1(result);
+				},
+				error : function() {
+					alert("获取服务器失败");
+				}
+			});
+		}
+		function getmessageinfo()
+		{
+			$.ajax({
+				type : "post",
+				url : "message/ms.action",
+				success : function(result) {
+					foreachJSON(result);
+				},
+				error : function() {
+					alert("获取服务器失败");
+				}
+			});
+		}
+		function getmyinfo() {
+			   $.ajax({
+		        	url:"session/get.action",
+		            success : function(result) {
+		            	 name=result.name;
+		            	 document.getElementById("name").innerHTML = result.name;
+						 document.getElementById("mytx").src = result.tx;
+		            },
+		            error : function() {
+		                layer.msg('请求服务器失败', {
+		                    icon : 2,
+		                    time : 1000
+		                });
+		            }
+		        });
+		}
+		function sendmess(uname,name)
+		{
+			layer_show("回复消息",'sendmessage.html?name='+encodeURI(name)+'&uname='+uname, 1000, 800);
+		}
+		function choose(select)
+		{
+			document.getElementById("txtTitle").value= select;
+		}
+		function findfriend()
+		{
+			
+			$.ajax({
+				type : "post",
+				url : "message/searchaddfriends.action",
+				data:{"name":$("#txtTitle").val()
+					},
+				success : function(result) {
+					if(JSON.stringify(result) == "[]")
+						{
+						 layer.msg('没有此用户', {
+			                    icon : 2,
+			                    time : 1000
+			                });
+						}
+					else showfriend(result);
+					
+				},
+				error : function() {
+					 layer.msg('请求服务器失败', {
+		                    icon : 2,
+		                    time : 1000
+		                });
+				}
+			});
+			
+		}
+		function showfriend(result)
+		{
+			var str1 = "";
+			$.each(result,function(index, key) {	
+						str1 +='<div style="border: 1px #ccc solid;width: 1000px;height: 113px;display: inline-block;"><div style="float: left;padding-top: 21px;margin-left: 17px;"><img width="80" height="80" src='
+						+key.ftx
+						+'></div><div style="float: left;margin-left: 10px;padding-top: 35px;"><dl style="font-size: 12px;color: #686868;"><font style="color: #F2873B;">'
+						+key.fname
+						+'</font>&nbsp;&nbsp;&nbsp;&nbsp;'
+						+key.fcomments
+						+'</dl></div><div style="float: right;padding-top: 50px;"><input type="button" onclick=addfriends('
+						+key.funame
+						+','
+						+key.name
+						+') value="+ 关注"  style="margin-right:20px;width: 46px;height: 20px;color: #F88600;background-color: #fff;border: 1px #F88600 solid;"/></div></div>';
+							});
+			$("#addf").html(str1);
+		}
+		function addfriends(uname)
+		{
+			$.ajax({
+				type : "post",
+				url : "ams/addnewfriend.action",
+				data:{"uname":uname
+					},
+				success : function(result) {
+					if(result==1)
+						{
+						 layer.msg('关注成功', {
+			                    icon : 1,
+			                    time : 1000
+			                });
+						}
+					else {
+						 layer.msg('已经是您的好友了！', {
+			                    icon : 2,
+			                    time : 1000
+			                });
+					}
+					
+				},
+				error : function() {
+					 layer.msg('请求服务器失败', {
+		                    icon : 2,
+		                    time : 1000
+		                });
+				}
+			});
+			
+		}
+	</script>
+	</body>
+
+</html>

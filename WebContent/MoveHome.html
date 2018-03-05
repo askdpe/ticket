@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)**************************************************************** -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Home</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+<!--	<link rel="icon" href="****************************************************************image/favor_icon.png" type="image/x-icon">
+	<link rel="shortcut icon" href="****************************************************************image/favor_icon.png" type="image/x-icon">-->
+
+	<!--frameworks-->
+	<script src="./js/jquery-2.1.4.min.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+	<link href="./css/bootstrap.css" rel="stylesheet" type="text/css">
+	<!--//frameworks-->
+
+	<link href="./css/style.css" rel="stylesheet" type="text/css" media="all">
+	<link href="./css/common.css" rel="stylesheet" type="text/css" media="all">
+
+	<script src="./js/post.js"></script>
+	<script src="./js/clickMovie.js"></script>
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+	<!--headers for featureMovies-->
+	<link href="./css/style_featureMovies.css" rel="stylesheet" type="text/css" media="all">
+	<link href="./css/medile.css" rel="stylesheet" type="text/css">
+	<!--//headers for featureMovies-->
+<style id="style-1-cropbar-clipper">/* Copyright 2014 Evernote Corporation. All rights reserved. */
+.en-markup-crop-options {
+    top: 18px !important;
+    left: 50% !important;
+    margin-left: -100px !important;
+    width: 200px !important;
+    border: 2px rgba(255,255,255,.38) solid !important;
+    border-radius: 4px !important;
+}
+
+.en-markup-crop-options div div:first-of-type {
+    margin-left: 0px !important;
+}
+
+.my{
+	font: "微软雅黑", 20px;
+	color: red;
+}
+</style>
+
+	
+	<script type="application/javascript">
+	/*获取日期信息*/
+	$(function() {
+	
+			$.ajax({
+				type : "post",
+				url : "userBuyFilm/hot.action",
+
+				success : function(result) {
+					 var obj=JSON.parse(result);
+					
+					var obj0=obj[0];
+					
+					for(var key in obj0){
+						/* alert("Key是:" + key);
+					    alert("对应的值是:" + obj1[key]); */
+					    var a="<div class='w3l-movie-gride-agile'><a name='"+key+"'href='SelectShow.html?name="+key+"'class='hvr-shutter-out-horizontal'><img src='"+obj0[key]+"'title='album-name'class='img-responsive'alt=''><div class='w3l-action-icon'><i class='fafa-play-circle'aria-hidden='true'></i></div></a><div class='w3l-movie-text'><h6><aname='"+key+"'href=''>"+key+"</a></h6></div></div>";
+  						 //alert(a);
+					   $("#-2102616122").append(a); 
+					}
+					
+					var obj1=obj[1];
+					
+					for(var key in obj1){
+						/* alert("Key是:" + key);
+					    alert("对应的值是:" + obj1[key]); */
+					    var a="<div class='w3l-movie-gride-agile'><a name='"+key+"'href='SelectShow.html?name="+key+"'class='hvr-shutter-out-horizontal'><img src='"+obj1[key]+"'title='album-name'class='img-responsive'alt=''><div class='w3l-action-icon'><i class='fafa-play-circle'aria-hidden='true'></i></div></a><div class='w3l-movie-text'><h6><aname='"+key+"'href=''>"+key+"</a></h6></div></div>";
+  						/* alert(a); */
+					   $("#-1202542684").append(a); 
+					}
+					 
+
+				},
+				error : function() {
+					alert("获取服务器失败");
+				}
+			});
+});
+
+</script>
+	
+
+</head>
+<body>
+
+<div class="container">
+	<div class="container_wrap">
+		<div class="header_top">
+			<div class="col-sm-3 logo" style="margin-left:50px"><a href=""><img src="./img/logo.png" alt=""></a></div>
+			
+			<div class="col-sm-3 header_right"style="margin-left:80%;floar:right">
+				<ul class="header_right_box"  >
+					<!--<li>
+						<img src="./img/p1.png" alt="icon">
+					</li>-->
+					<li><p>
+						<a style="cursor:default;font-size:30" href="home/home.html">首页 </a>
+						<!--<a href=""><img src="./img/logout.png" style="width:20px; margin-left: 3px; height:25px;"></a>-->
+						
+					</p></li>
+					
+					<div class="clearfix"> </div>
+				</ul>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+		<div id="myCarousel" class="carousel slide">
+			<!-- 轮播（Carousel）指标 -->
+			<ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1"></li>
+				<li data-target="#myCarousel" data-slide-to="2"></li>
+			</ol>
+			<!-- 轮播（Carousel）项目 -->
+			<div class="carousel-inner">
+				<div class="item active">
+					<img src="./img/The MatrixB.jpg" alt="0 slide">
+					<div class="button">
+						<a name="The Matrix" href="" class="hvr-shutter-out-horizontal">购票</a>
+					</div>
+				</div>
+				<div class="item">
+					<img src="./img/The HobbitB.jpg" alt="1 slide">
+					<div class="button">
+						<a name="The Hobbit" href="" class="hvr-shutter-out-horizontal">购票</a>
+					</div>
+				</div>
+				<div class="item">
+					<img src="./img/Lord of the ringsB.jpg" alt="2 slide">
+					<div class="button">
+						<a name="Lord of the rings" href="" class="hvr-shutter-out-horizontal">购票</a>
+					</div>
+				</div>
+			</div>
+			<!-- 轮播（Carousel）导航 -->
+			<a class="carousel-control left" href="" data-slide="prev">‹
+			</a>
+			<a class="carousel-control right" href="" data-slide="next">›
+			</a>
+		</div>
+		<script>$('.carousel').carousel()</script>
+
+		<div class="content">
+			<!--feature movies-->
+			<div class="general">
+				<h4 class="latest-text w3_latest_text">经典影片</h4>
+				<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+					<ul id="myTab" class="featureMoviesNav featureMoviesNav-tabs" role="tablist" style="padding-left:0px; padding-bottom:10px">
+						<li role="presentation" class="tab active"><a href="#-2102616122" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" style="color:white">最新上映</a></li>
+						<li role="presentation" class="tab"><a href="#-1202542684" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" style="color:white">热点</a></li>
+						<li role="presentation" class="tab"><a href="#-116786726" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" style="color:white">评价最好</a></li>
+						<li role="presentation" class="tab"><a href="#1632471775" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="true" style="color:white">最近上映</a></li>
+					</ul>
+					<div id="myTabContent" class="tab-content">
+						<div role="tabpanel" class="tab-pane fade in active" id="-2102616122" aria-labelledby="home-tab">
+							
+						</div>
+						
+						//第二栏
+						<div role="tabpanel" class="tab-pane fade in" id="-1202542684" aria-labelledby="home-tab">
+							
+						</div>
+						
+						
+						//第三栏
+						<div role="tabpanel" class="tab-pane fade in" id="-116786726" aria-labelledby="home-tab">
+							<div class="w3l-movie-gride-agile">
+								<a name="The Matrix" href="" class="hvr-shutter-out-horizontal">
+									<img src="./img/The Matrix.jpg" title="album-name" class="img-responsive" alt=" ">
+									<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i>
+									</div>
+								</a>
+								<div class="w3l-movie-text">
+									<h6><a name="The Matrix" href="">杀人网络</a></h6>
+								</div>
+							</div>
+							<div class="w3l-movie-gride-agile">
+								<a name="Lord of the rings" href="" class="hvr-shutter-out-horizontal">
+									<img src="./img/Lord of the rings.jpg" title="album-name" class="img-responsive" alt=" ">
+									<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i>
+									</div>
+								</a>
+								<div class="w3l-movie-text">
+									<h6><a name="Lord of the rings" href="">指环王</a></h6>
+								</div>
+							</div>
+							<div class="w3l-movie-gride-agile">
+								<a name="Chibi" href="" class="hvr-shutter-out-horizontal">
+									<img src="./img/Chibi.jpg" title="album-name" class="img-responsive" alt=" ">
+									<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i>
+									</div>
+								</a>
+								<div class="w3l-movie-text">
+									<h6><a name="Chibi" href="">赤壁</a></h6>
+								</div>
+							</div>
+							<div class="w3l-movie-gride-agile">
+								<a name="High School Musical" href="" class="hvr-shutter-out-horizontal">
+									<img src="./img/High School Musical.jpg" title="album-name" class="img-responsive" alt=" ">
+									<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i>
+									</div>
+								</a>
+								<div class="w3l-movie-text">
+									<h6><a name="High School Musical" href="">歌舞青春</a></h6>
+								</div>
+							</div>
+							<div class="w3l-movie-gride-agile">
+								<a name="Dead Game" href="" class="hvr-shutter-out-horizontal">
+									<img src="./img/Dead Game.jpg" title="album-name" class="img-responsive" alt=" ">
+									<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i>
+									</div>
+								</a>
+								<div class="w3l-movie-text">
+									<h6><a name="Dead Game" href="">死亡游戏</a></h6>
+								</div>
+							</div>
+						</div>
+						
+						
+						//最后一栏
+						<div role="tabpanel" class="tab-pane fade in" id="1632471775" aria-labelledby="home-tab">
+							<div class="w3l-movie-gride-agile">
+								<a name="Kingsman" href="" class="hvr-shutter-out-horizontal">
+									<img src="./img/Kingsman.jpg" title="album-name" class="img-responsive" alt=" ">
+									<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i>
+									</div>
+								</a>
+								<div class="w3l-movie-text">
+									<h6><a name="Kingsman" href="">王牌特工</a></h6>
+								</div>
+							</div>
+							<div class="w3l-movie-gride-agile">
+								<a name="High School Musical" href="" class="hvr-shutter-out-horizontal">
+									<img src="./img/High School Musical.jpg" title="album-name" class="img-responsive" alt=" ">
+									<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i>
+									</div>
+								</a>
+								<div class="w3l-movie-text">
+									<h6><a name="High School Musical" href="">歌舞青春</a></h6>
+								</div>
+							</div>
+							<div class="w3l-movie-gride-agile">
+								<a name="Conan" href="" class="hvr-shutter-out-horizontal">
+									<img src="./img/Conan.jpg" title="album-name" class="img-responsive" alt=" ">
+									<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i>
+									</div>
+								</a>
+								<div class="w3l-movie-text">
+									<h6><a name="Conan" href="">柯南</a></h6>
+								</div>
+							</div>
+							<div class="w3l-movie-gride-agile">
+								<a name="Dead Game" href="" class="hvr-shutter-out-horizontal">
+									<img src="./img/Dead Game.jpg" title="album-name" class="img-responsive" alt=" ">
+									<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i>
+									</div>
+								</a>
+								<div class="w3l-movie-text">
+									<h6><a name="Dead Game" href="">死亡游戏</a></h6>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- //feature movies -->
+			</div>
+		</div>
+	</div>
+</div>
+
+</body></html>

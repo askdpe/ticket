@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)http://localhost:8080/selectShow?movie_id=1 -->
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>电影信息</title>
+		<link rel="icon" type="image/png" href="img/logo.png">
+ <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+ <script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript" src="js/layer/2.4/layer.js"></script>
+	<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+	<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+<link media="screen" href="statics/grade.css" type="text/css" rel="stylesheet" /> 
+<script src="statics/jquery-latest.pack.js" type="text/javascript"></script> 
+<script src="statics/grade.js" type="text/javascript"></script> 
+		<script type="application/x-javascript">
+			addEventListener("load", function() {
+				setTimeout(hideURLbar, 0);
+			}, false);
+
+			function hideURLbar() {
+				window.scrollTo(0, 1);
+			}
+		</script>
+		<!--frameworks-->
+		<script src="./SelectShow_files/jquery-2.1.4.min.js"></script>
+		<script src="./SelectShow_files/bootstrap.min.js"></script>
+		<link href="./SelectShow_files/bootstrap.css" rel="stylesheet" type="text/css">
+		<!--//frameworks-->
+
+		<link href="./SelectShow_files/style.css" rel="stylesheet" type="text/css" media="all">
+		<link href="./SelectShow_files/style(1).css" rel="stylesheet" type="text/css" media="all">
+		<link href="./SelectShow_files/common.css" rel="stylesheet" type="text/css" media="all">
+		<link href="./css/style.css" rel="stylesheet" type="text/css" media="all">
+	<link href="./css/common.css" rel="stylesheet" type="text/css" media="all">
+		<script src="./SelectShow_files/clickShow.js"></script>
+		<script src="./SelectShow_files/post.js"></script>
+<style>
+</style>
+		<style id="style-1-cropbar-clipper">
+			/* Copyright 2014 Evernote Corporation. All rights reserved. */
+	
+        .bg-blur {
+            float: left;
+            width: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            border-radius: 5%; 
+            filter: blur(15px);
+        }
+        .content-front {
+          position:absolute;
+          left: 10px;
+          right: 10px;
+          height:600px;
+          color:#fff;
+          background-color: rgba(0, 0, 0, 0);  
+        }
+
+			.en-markup-crop-options {
+				top: 18px !important;
+				left: 50% !important;
+				margin-left: -100px !important;
+				width: 200px !important;
+				border: 2px rgba(255, 255, 255, .38) solid !important;
+				border-radius: 4px !important;
+			}
+			
+			.en-markup-crop-options div div:first-of-type {
+				margin-left: 0px !important;
+			}
+			.ms-stand-btn2 {
+	width: 77px;
+	height: 26px;
+	display: inline-block;
+	background: #FF7700;
+	border-radius: 3px;
+	font: 14px/26px "Microsoft Yahei";
+	text-align: center;
+	color: #fff;
+	text-decoration: none
+}
+		</style>
+		
+		
+		
+		
+
+		 <script type="application/javascript">
+		 //获取URL的属性
+		 var filmname;
+		 function sendmess(title,w, h)
+			{
+				layer_show(title,"movepingjia.html?filmname="+encodeURI(filmname), w, h);
+			}
+		 var GetQueryString = function(key) {
+			    var search = decodeURIComponent(location.search);
+			    var reg = new RegExp(".*" + key + "\\=" + "([^&]*)(&?.*|)", "g");
+			    return search.replace(reg, "$1");
+			}
+
+		 
+		 /*获取日期信息和基本信息*/
+
+			$(function() {
+				filmname=GetQueryString("name");
+				getpinglun();
+				/*  alert(GetQueryString("name")); */
+				 	$.ajax({
+						type : "post",
+						url : "userBuyFilm/allbeontime.action",
+					 	data: {
+                            "filmname": GetQueryString("name")
+                        },	
+			
+						success : function(result) {
+							
+						 	
+						   var obj=JSON.parse(result);
+							
+							var obj0= obj[0];
+							 
+							$.each(obj0,function(index,value){
+								var a="<option id='date+"+index+"' value='"+value+"'>"+value+"</option>"
+								$("#doc-select-1").append(a);
+							});
+							var obj1=obj[1];
+							for(var key in obj1){
+								if(key=='picture'){
+									$("#picture").attr("src",obj1[key]);
+									$("#xinxi").attr("src",obj1[key]);
+								}else{
+									$("#"+key).append(obj1[key]);
+								}
+		  					
+							}
+							
+						},
+						error : function() {
+							alert("获取服务器失败");
+						} 
+					}); 
+				
+				 setTimeout(function(){
+					 $.ajax({
+							type:"post",
+							url:"userBuyFilm/allbeondetail.action",
+							data:{
+								"date":$("#doc-select-1").val(),
+								"movename":$("#name").html(),
+							},
+							success:function(result){
+								 var obj=JSON.parse(result);
+								 $.each(obj,function(index,value){
+									 var theatrename = index;
+									var str="<div class='movie-date-selection' id='"+index+"'><ul><li class='location'><span>"+index+"</span></li>";
+								
+									 $.each(value,function(index,value){						    
+											    str+="<li class='time'><a name='ABC' href='javascript:getBeonInfo(" +"\""+ theatrename+ "\""+ ","+"\""+ value["yingTing"]+ "\""+ ","+"\""+ value["time"]+ "\""+ ","+"\""+ value["price"]+ "\")'>"+"影厅："+value["yingTing"]+"<br/>"+" 时间："+value["time"]+"<br/>"+" 票价："+value["price"]+"</a></li>";  
+											
+											});
+									 str+="</ul></div>"
+									 $("#yingting").append(str);
+									 
+									});
+							}
+						}); 
+				 },500);
+				 	
+		});
+		 
+			function getpinglun()
+			{
+				 $.ajax({
+						type:"post",
+						url:"apl/search.action",
+						data:{"rplace" : filmname
+							},
+						success:function(result){
+							foreachJSON(result);
+						}
+					}); 
+			}
+			function foreachJSON(result)
+			{
+				var str = "";
+				$.each(result,function(index, key) {		
+							str+= '<ul><div"><span>'
+								+key.name
+								+'：</span></div><div>'
+								+key.content
+								+'</div><div>'
+								+key.time
+								+'</div></ul>';
+								});
+				 $("#pingjia").append(str);
+			}
+		 
+		 //传递日期获取影厅信息
+		 
+			 $(document).ready(aaa); 
+			function aaa() {
+				$("#doc-select-1").bind("change",bbb);
+			}
+			function bbb() {
+				if($("#doc-select-1").val() == 0) {
+					return;
+				} else {
+					  $.ajax({
+						type:"post",
+						url:"userBuyFilm/allbeondetail.action",
+						data:{
+							"date":$("#doc-select-1").val(),
+							"movename":$("#name").html(),
+						},
+						success:function(result){
+							 var obj=JSON.parse(result);
+							 $("#yingting").empty();
+							 $.each(obj,function(index,value){
+								 var theatrename = index;
+								var str="<div class='movie-date-selection' id='"+index+"'><ul><li class='location'><span>"+index+"</span></li>";
+								 $.each(value,function(index,value){		
+									 str+="<li class='time'><a name='ABC' href='javascript:getBeonInfo(" +"\""+ theatrename+ "\""+ ","+"\""+ value["yingTing"]+ "\""+ ","+"\""+ value["time"]+ "\""+ ","+"\""+ value["price"]+ "\")'>"+"影厅："+value["yingTing"]+"<br/>"+" 时间："+value["time"]+"<br/>"+" 票价："+value["price"]+"</a></li>";  
+								});
+								 str+="</ul></div>"
+								 $("#yingting").append(str);
+								 
+								});
+						}
+					});  
+				}
+			}
+			 function getBeonInfo(theatrename,hallname,beontime,price) {
+				 	var datetime=$("#doc-select-1").val()+" "+beontime+":00";
+				 	var filmname=$("#name").html();
+					//alert(filmname+","+hallname+","+datetime+","+price);
+					$.ajax({
+						type : "get",
+						url : "userBuyFilm/selectseat.action",
+						data : {
+							"theatrename" : theatrename,
+							"filmname" : filmname,
+							"hallname" : hallname,
+							"datetime" : datetime,
+							"price" : price
+						},
+						success : function(result) {
+							if(result){
+								window.location.href = "choose.jsp";
+							}else{
+								alert("seatinfo false");
+							}
+						},
+						error : function() {
+							alert("获取服务器失败");
+						}
+					});
+
+				}
+
+		</script> 
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="container_wrap">
+				<div class="header_top">
+					<div class="col-sm-3 logo">
+							<div class="col-sm-3 logo" style="margin-left:50px"><a href=""><img src="./img/logo.png" alt=""></a></div>
+					</div>
+					<div class="col-sm-6 nav my">
+						<h2 style="color: red;font-family: '楷体';"></h2></div>
+					<div class="col-sm-3 header_right">
+						<ul class="header_right_box">
+							<!--<li>
+						<img src="./img/p1.png" alt="icon">
+					</li>-->
+							<li>
+								<p>
+									<a style="cursor:default;" href=""><br /> 首页 </a>
+									<!--<a href=""><img src="./img/logout.png" style="width:20px; margin-left: 3px; height:25px;"></a>-->
+
+								</p>
+							</li>
+
+							<div class="clearfix"> </div>
+						</ul>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="content">
+					<div class="now-showing-list">
+						<div class="col-md-4 movies-by-category movie-booking">
+							<div class="movie-ticket-book">
+								<div class="clearfix"></div>
+								<img id="picture" src="" alt="poster" height="400px">
+								<div class="movie-date-selection" style="margin-top:20px;width:100%">
+							<ul>
+								<div style="float:left;margin-left:0px" ><font face="verdana" size="4">热门评论：</font></div>
+									<div style="float:right;margin-right:20px"><a onclick="sendmess('票儿圈','500','480')" class="hvr-shutter-out-horizontal ms-stand-btn2">评论</a></div>
+	<li></li>
+									</ul>
+									<div id="pingjia">
+								
+								</div>
+							</div>
+								
+							</div>
+						</div>
+						<div class="col-md-8 movies-dates" >
+						<img src="" id="xinxi" class="bg bg-blur" style="height:400px;"></img>
+        <div class="content content-front">
+									<h4>影片名称:</h4>
+									<p id="name"></p>
+									<h4>影片时长:</h4>
+									<p id="length"></p>
+									<h4>导演:</h4>
+									<p id="director"></p>
+									<h4>演员:</h4>
+									<p id="performer"></p>
+									<h4>语言:</h4>
+									<p id="language"></p>
+									<h4>影片类型:</h4>
+									<p id="type"></p>
+									<h4>制片国家地区:</h4>
+									<p id="area"></p>	
+									<h4>剧情简介:</h4>
+									<p id="synopsis">
+									</p>
+									<br>
+									<h4>播放日期:</h4>
+									<select id="doc-select-1"  style='color:#000;'>	
+									</select>
+									</div>
+				</div>
+						</div>
+
+						<div class="col-md-8 movies-dates">
+							<div class="bahubali-details" id="yingting" style="margin-top:20px" >
+									
+								</div>
+
+						</div>
+						
+						<div class="clearfix">
+			 
+						
+						</div>
+						
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+</html>

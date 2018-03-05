@@ -1,0 +1,525 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="keywords" content="">
+		<meta name="description" content="">
+		<link rel="stylesheet" href="css/safe/ms-style.min.css" />
+		<link rel="stylesheet" href="css/safe/css.css" />
+		<link rel="stylesheet" href="css/safe/common.min.css" />
+		<link rel="stylesheet" href="css/safe/ms-style.min.css" />
+		<link rel="stylesheet" href="css/safe/personal_member.min.css" />
+		<link rel="stylesheet" href="css/sui.css" />
+		<link rel="stylesheet" type="text/css"
+          href="static/h-ui/css/H-ui.min.css"/>
+        <link rel="stylesheet" type="text/css"
+          href="static/h-ui.admin/css/H-ui.admin.css"/>
+        <link rel="stylesheet" type="text/css"
+          href="lib/Hui-iconfont/1.0.8/iconfont.css"/>
+        <link rel="stylesheet" type="text/css"
+          href="static/h-ui.admin/skin/default/skin.css" id="skin"/>
+        <link rel="stylesheet" type="text/css"
+          href="static/h-ui.admin/css/style.css"/>
+		<script type="text/javascript" src="js/jquery-1.9.1.min.js" ></script>
+		<script type="text/javascript" src="js/sui.js" ></script>
+		<style>
+		body {
+		    background: #f5f5f5;
+		}
+			.sui-table th{
+		    padding: 16px 8px;
+		    line-height: 18px;
+		    text-align: center;
+		    vertical-align: middle;
+		    border-top: 1px solid #e6e6e6;
+		    font-weight: normal;
+		    font-size: 14px;
+		    color: #333333;
+		   }
+		   .sui-table td {
+		    padding: 16px 8px;
+		    line-height: 18px;
+		    text-align: center;
+		    vertical-align: middle;
+		    border-top: 1px solid #e6e6e6;
+		    font-weight: normal;
+		    font-size: 12px;
+		    color: #333333;
+		   }
+	img {
+	    max-width: 100%;
+	    height: auto;
+	    /*vertical-align: bottom;*/
+	    border: 0;
+	    -ms-interpolation-mode: bicubic;
+	    margin-left: -10px;
+	}
+a{
+	color: #000000;
+}
+.am-btn-warning {
+	color: #fff;
+	background-color: #F88600;
+	border-color: #F88600
+}
+.am-btn-lab {
+	color: #fff;
+	background-color: #5CB85C;
+	border-color: #5CB85C
+}
+		.am-btn,
+         button,
+        input:not([type=radio]):not([type=checkbox]),
+        select {
+	    vertical-align: middle
+}
+		</style>
+	</head>
+
+	<body class="ms-body">
+		
+		<header class="ms-header ms-header-inner ms-head-position">
+			<article class="ms-header-menu">
+				<style type="text/css">
+					.nav-manage .list-nav-manage {
+						position: absolute;
+						padding: 15px 4px 10px 15px;
+						left: 0;
+						top: -15px;
+						width: 90px;
+						background: #FFF;
+						box-shadow: 1px 1px 2px #e3e3e3, -1px 1px 2px #e3e3e3;
+						z-index: 10;
+					}
+					
+					.ms-nav li {
+						float: left;
+						position: relative;
+						padding: 0 20px;
+						height: 44px;
+						font: 14px/26px "Microsoft YaHei";
+						color: #FFF;
+						cursor: pointer;
+						z-index: 10;
+					}
+					.personal-member .main-wrap {
+    width: 1068px;
+    margin: 15px 0 30px 180px;
+    padding: 0 0 39px 0;
+    border: 1px solid #ddd;
+    background: none;
+}
+				</style>
+				<div class="header-menu">
+					<div class="ms-logo">
+						<a href="home/home.html" class="ms-head-logo" name="Myyigou_index_none_daohangLogo"><span style="font-size: 30px;color: #fff;font-weight: bold;    line-height: 28px;;">票儿圈</span></a>
+					</div>
+					<nav class="ms-nav">
+						<ul>
+							<li class="">
+								<a href="perindex.html" data-url=""style="    padding-bottom: 17px;border-bottom: 3px #fff solid;" >首页</a><i class="nav-arrow"></i></li>
+							<li class="nav-manage selected">
+								<a href="permanage.html" data-url="" >账户管理</a><i class="nav-arrow" hidden></i>
+							</li>
+							<li class="ms-nav-msg"><a href="permanage.html" data-url="">消息</a><i class="nav-arrow"></i></li>
+						</ul>
+						<div class="ms-search">
+							<form>
+								<input id="" type="text" value="">
+								<img src="img/搜索.png"  style="height: 10px;width: 10px;float: right;margin-right: 10px;" />
+							</form>
+						</div>
+					</nav>
+				</div>
+
+			</article>
+
+			<article class="ms-useinfo">
+				<div class="header-useinfo" id="">
+						<div class="ms-avatar">
+						<div class="useinfo-avatar">
+							<img id="mytx">
+							<div class="edit-avatar"></div>
+							<a class="text-edit-avatar">修改</a>
+						</div>
+						<a id="name" href="permanage.html"></a>
+					</div>
+
+					<div class="ms-name-info">
+						<div class="info-member">
+							<span class="name-member member-1">
+        				 <i></i><a target="_blank" >会员等级</a></span>
+						</div>
+					</div>
+				</div>
+
+			</article>
+		</header>
+		<div id="ms-center" class="personal-member">
+			<div class="cont">
+				<div class="cont-side">
+					<div class="side-neck" style="margin-top: 20px;">
+						<i></i>			
+					</div>
+					<div class="ms-side" style="margin-top: 20px;">
+						<article class="side-menu side-menu-off">
+							<dl class="side-menu-tree" style="padding-left: 50px;">
+								<a href="perindex.html"><dt><img src="img/左侧/我的买啦.png"  style="margin-right: 10px;margin-left: -10px;"/>个人主页</dt></a>
+								<a href="perdingdan.html"><dt><img src="img/左侧/我的购物车.png"  style="margin-right: 10px;margin-left: -10px;"/>我的订单</dt></a>
+								<a href="perpingjia.html"><dt><img src="img/左侧/file.png"  style="margin-right: 13px;margin-left: -10px;"/>我的评论</dt></a>
+							</dl>
+							<a ison="on" class="switch-side-menu icon-up-side"><i></i></a>
+						</article>
+					</div>
+				</div>
+				<div class="cont-main">
+					<div class="main-wrap mt15" style="border: 0px;">
+						<!--<h3>
+	                        <strong>个人信息</strong>
+	                    </h3>-->
+						<div class="server-wrapper">
+							<div class="server-tab" style="margin-top: 20px;">
+                                <div style="width: 100%;    display: inline-block;">
+									<h3 style="font-size: 15px;color: #333333;width: 1000px; padding-top: 20px;"><span style="float: left;background-color: #F2873B;height: 15px;width: 4px;margin-right: 10px;"></span>订单统计</h3>									
+								</div>
+								<ul class="sui-nav nav-tabs">
+                                  <li class="active"><a href="#profile" data-toggle="tab">我的订单</a></li>
+								  <li><a href="#index" data-toggle="tab">收藏订单</a></li>
+								</ul>
+								<div style="width: 100%;border-top: 1px #ccc solid;margin-top: 21px;"></div>
+								<div class="tab-content" style="margin-top: 30px;">
+								  <div id="index" class="tab-pane ">
+								  	<span class="r" style="padding: 10px 0 10px 0;"> 每页显示的条数 <select
+			name="selectpagesize1" id="selectpagesize1" onchange="selectpagesize1()">
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="50">50</option>
+		</select>
+		</span>	
+								   <table
+                class="table table-border table-bordered table-bg table-hover">
+            <thead>
+            <tr class="text-c">
+                <th width="150">类别</th>
+                <th width="200">名称</th>
+                <th width="150">支付金额</th>
+				 <th width="150">时间</th>
+                <th>详情</th>
+            </tr>
+            </tr>
+            </thead>
+            <tbody id="dingdan1">
+            
+
+            </tbody>
+        </table>
+        <div align="right">
+		<ul class="pagination" id="pager1">
+			<li><a href="#">&laquo;</a></li>
+			<li><a href="#" >1</a></li>
+			<li><a href="#">2</a></li>
+			<li><a href="#">3</a></li>
+			<li><a href="#">&raquo;</a></li>
+		</ul>
+	</div>
+								  </div>
+								  <div id="profile" class="tab-pane active">
+								    <div id="index" class="tab-pane ">
+								    <span class="r" style="padding: 10px 0 10px 0;"> 每页显示的条数 <select
+			name="selectpagesize" id="selectpagesize" onchange="selectpagesize()">
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="20">20</option>
+				<option value="50">50</option>
+		</select>
+		</span>	
+								   <table
+                class="table table-border table-bordered table-bg table-hover">
+            <thead>
+            <tr class="text-c">
+			 <th width="150">类别</th>
+                <th width="200">名称</th>
+                <th width="150">支付金额</th>
+				 <th width="150">时间</th>
+                <th>详情</th>
+            </tr>
+            </thead>
+            <tbody id="dingdan">
+            
+
+            </tbody>
+        </table>
+        <div align="right">
+		<ul class="pagination" id="pager">
+			<li><a href="#">&laquo;</a></li>
+			<li><a href="#" >1</a></li>
+			<li><a href="#">2</a></li>
+			<li><a href="#">3</a></li>
+			<li><a href="#">&raquo;</a></li>
+		</ul>
+	</div>
+								  </div>
+								  </div>
+								</div>
+							
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		</div>
+		<div class="clear "></div>
+		<div class="ng-footer ">
+
+			<textarea class="footer-dom " id="footer-dom-02 ">
+			</textarea>
+			<div class="ng-fix-bar "></div>
+		</div>
+		<style type="text/css ">
+		
+			.ng-footer {
+				height: 130px;
+				margin-top: 0;
+			}
+		
+			
+			.ng-s-footer {
+				height: 130px;
+				background: none;
+				text-align: center;
+			}
+			
+			.ng-s-footer p.ng-url-list {
+				height: 25px;
+				line-height: 25px;
+			}
+			
+			.ng-s-footer p.ng-url-list a {
+				color: #666666;
+			}
+			
+			.ng-s-footer p.ng-url-list a:hover {
+				color: #f60;
+			}
+			
+			.ng-s-footer .ng-authentication {
+				float: none;
+				margin: 0 auto;
+				height: 25px;
+				width: 990px;
+				margin-top: 5px;
+			}
+			
+			.ng-s-footer p.ng-copyright {
+				float: none;
+				width: 100%;
+			}
+			
+			.root1200 .ng-s-footer p.ng-copyright {
+				width: 100%;
+			}
+		</style>
+			<script type="text/javascript " src="js/safe/ms_common.min.js "></script>
+			<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+	<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+	<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+		 <script  type="text/javascript">
+		page = 0;
+		pagesize = 5;
+		$(function() {
+			getmyinfo();
+			getUserTablePageCount(pagesize);
+			getAllUserInfo(page, pagesize);
+			getUserTablePageCount1(pagesize);
+			getAllUserInfo1(page, pagesize);
+		});
+
+		function getUserTablePageCount(pagesize) {
+
+			var str = "";
+			$.ajax({
+				type : "get",
+				url : "sdd/getmdcs.action",
+				data : {
+					"pagesize" : pagesize,
+				},
+
+				success : function(result) {
+					for (var i = 0; i < result; i++) {
+						str += "<li><a href='javascript:getAllUserInfo(" + i
+								+ "," + pagesize + ")'>" + (i + 1)
+								+ "</a></li>";
+					}
+					str += "<li><a href='#'>>></a></li>";
+					$("#pager").html(str);
+				},
+				error : function() {
+					alert("获取服务器失败");
+				}
+			});
+		}
+		
+		function foreachJSON(result) {
+			
+			var str1 = "";
+			$.
+			each(
+					
+					JSON.parse(result),
+							function(index, key) {		
+						str1 += "<tr class='text-c'><td id=\"dtype"
+							+ (index + 1)
+							+ "\">"
+							+ key.dtype
+							+ "</td><td id=\"dname"
+							+ (index + 1)
+							+ "\">"
+							+ key.dname
+							+ "</td><td id=\"dpay"
+							+ (index + 1)
+							+ "\">"
+							+ key.dpay
+							+ "</td><td id=\"dtime"
+							+ (index + 1)
+							+ "\">"
+							+ key.dtime
+							+ "</td><td id=\"dcomment"
+							+ (index + 1)
+							+ "\">"
+							+ key.dcomment
+							+ "</td></tr>";
+							});
+			
+			$("#dingdan").html(str1);
+		}
+		function getAllUserInfo(page2, pagesize2) {
+			page = page2;
+			pagesize = pagesize2;
+			$.ajax({
+				type : "post",
+				url : "sdd/mydingdan.action",
+				data : {
+					"page" : page,
+					"pagesize" : pagesize
+				},
+				async : true,
+				success : function(result) {
+					foreachJSON(result);
+				},
+				error : function() {
+					alert("获取服务器失败");
+				}
+			});
+		}
+		function selectpagesize() {
+			var slctpagesize = $("#selectpagesize").val();
+			pagesize = slctpagesize;
+			getAllUserInfo(0, pagesize);
+			getUserTablePageCount(pagesize);
+		}
+		<!-- 11111111111111111111 --!>
+			function getUserTablePageCount1(pagesize) {
+
+			var str = "";
+			$.ajax({
+				type : "get",
+				url : "sdd/getsdcs.action",
+				data : {
+					"pagesize" : pagesize,
+				},
+
+				success : function(result) {
+					for (var i = 0; i < result; i++) {
+						str += "<li><a href='javascript:getAllUserInfo1(" + i
+								+ "," + pagesize + ")'>" + (i + 1)
+								+ "</a></li>";
+					}
+					str += "<li><a href='#'>>></a></li>";
+					$("#pager1").html(str);
+				},
+				error : function() {
+					alert("获取服务器失败");
+				}
+			});
+		}
+			function getAllUserInfo1(page2, pagesize2) {
+			page = page2;
+			pagesize = pagesize2;
+			$.ajax({
+				type : "post",
+				url : "sdd/savedingdan.action",
+				data : {
+					"page" : page,
+					"pagesize" : pagesize
+				},
+				async : true,
+				success : function(result) {
+					foreachJSON1(result);
+				},
+				error : function() {
+					alert("获取服务器失败");
+				}
+			});
+		}
+		function foreachJSON1(result) {
+			
+			var str1 = "";
+			$.
+			each(
+					
+					JSON.parse(result),
+							function(index, key) {		
+						str1 += "<tr class='text-c'><td id=\"dtype"
+							+ (index + 1)
+							+ "\">"
+							+ key.dtype
+							+ "</td><td id=\"dname"
+							+ (index + 1)
+							+ "\">"
+							+ key.dname
+							+ "</td><td id=\"dpay"
+							+ (index + 1)
+							+ "\">"
+							+ key.dpay
+							+ "</td><td id=\"dtime"
+							+ (index + 1)
+							+ "\">"
+							+ key.dtime
+							+ "</td><td id=\"dcomment"
+							+ (index + 1)
+							+ "\">"
+							+ key.dcomment
+							+ "</td></tr>";
+							});
+			
+			$("#dingdan1").html(str1);
+		}
+		function selectpagesize1() {
+			var slctpagesize = $("#selectpagesize1").val();
+			pagesize = slctpagesize;
+			getAllUserInfo1(0, pagesize);
+			getUserTablePageCount1(pagesize);
+		}
+		function getmyinfo() {
+			   $.ajax({
+		        	url:"session/get.action",
+		            success : function(result) {
+		            	 document.getElementById("name").innerHTML = result.name;
+						 document.getElementById("mytx").src = result.tx;
+		            },
+		            error : function() {
+		                layer.msg('请求服务器失败', {
+		                    icon : 2,
+		                    time : 1000
+		                });
+		            }
+		        });
+		}
+	</script>
+	</body>
+</html>

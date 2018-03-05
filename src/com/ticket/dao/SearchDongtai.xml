@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ticket.dao.SearchDongtai">
+    <resultMap id="Dongtairesult" type="com.ticket.entity.dongtai">
+     <id column="id" property="id" jdbcType="INTEGER" javaType="Integer" />   
+     <result column="zan" property="zan" jdbcType="INTEGER" javaType="Integer"/>   
+     <result column="uname" property="uname" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="content" property="content" jdbcType="VARCHAR" javaType="string"/>  
+       <result column="name" property="name" jdbcType="VARCHAR" javaType="string"/>
+       <result column="user_picture" property="tx" jdbcType="VARCHAR" javaType="string"/>   
+     <result column="time" property="time" jdbcType="VARCHAR" javaType="string"/>    
+    </resultMap>  
+     <resultMap id="Frendresult" type="com.ticket.entity.friend">
+     <id column="fid" property="fid" jdbcType="INTEGER" javaType="Integer" />      
+ 	<association property="uname1"  javaType="com.ticket.entity.userinfo" resultMap="Userinforesult"/>
+ 	<association property="uname2"  javaType="com.ticket.entity.userinfo" resultMap="Userinforesult"/>
+    </resultMap> 
+     <resultMap id="Userinforesult" type="com.ticket.entity.userinfo">
+     <result column="uname" property="uname" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="user_picture" property="user_picture" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="user_comments" property="user_comments" jdbcType="VARCHAR" javaType="string"/>  
+     <result column="name" property="name" jdbcType="VARCHAR" javaType="string"/> 
+    </resultMap>  
+      <select id="Getmydongtai" resultMap="Dongtairesult" 
+       parameterType="String">
+      select d.*,u.name,u.user_picture from dongtai d,user u where u.uname=d.uname and(d.uname in (select uname1 from friend where uname2=#{uname} union select uname2 from friend where uname1=#{uname} )or d.uname=#{uname})    
+    </select>
+</mapper>

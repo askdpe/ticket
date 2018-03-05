@@ -1,0 +1,42 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>简单易用的倒计时js代码</title>
+<style>
+*{ margin:0; padding:0; list-style:none;}
+body{ font-size:18px; text-align:center;}
+.time{ height:30px; padding:200px;}
+</style>
+</head>
+<body>
+ <div class="time">
+    <span id="t_d"></span>
+    <span id="t_h"></span>
+    <span id="t_m"></span>分
+    <span id="t_s"></span>秒
+  </div>
+<script>
+var InterValObj; //timer变量，控制时间
+InterValObj =  setInterval(GetRTime,50);; //启动计时器，1秒执行一次
+  function GetRTime(){
+    var EndTime= new Date('2019/01/14 05:11:00');
+    var NowTime = new Date();
+    var t =EndTime.getTime() - NowTime.getTime();
+    var m=0;
+    var s=0;
+    if(t>=0){
+      m=Math.floor(t/1000/60%60);
+      s=Math.floor(t/1000%60);
+    }
+    document.getElementById("t_m").innerHTML = m ;
+    document.getElementById("t_s").innerHTML = s ;
+    if(document.getElementById("t_s").innerHTML==0 && document.getElementById("t_m").innerHTML==0){
+    	alert("qqq");
+    	window.clearInterval(InterValObj);//停止计时器
+    }
+  }
+ 
+</script>
+
+</body>
+</html>

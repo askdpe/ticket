@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title></title>
+<script type="text/javascript"
+	src="bootstrap-3.3.7-dist/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript"
+	src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script type="text/javascript"
+	src="bootstrap-3.3.7-dist/js/bootstrap-table.js"></script>
+<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css" />
+<link rel="stylesheet"
+	href="bootstrap-3.3.7-dist/css/bootstrap-table.css" />
+<script type="text/javascript">
+	//提交请求获取电影列表
+	$(function() {
+		$('#table')
+				.bootstrapTable(
+						{
+							url : 'hall/getMyHallInfoAll.action',
+							cache : false,
+							pagination : true,
+							pageSize : 5,
+
+							columns : [
+									{
+										field : 'hall_id',
+										title : 'ID',
+										cellStyle : function(row, index) {
+											var style = {};
+											style = {
+												css : {
+													'display' : 'none'
+												}
+											};
+											return style;
+										}
+									},
+									{
+										field : 'hall_name',
+										title : '影厅名',
+
+									},
+									{
+										field : 'upper_limit',
+										title : '座位上限',
+
+									},
+									{
+										field : 'rows',
+										title : '行',
+
+									},
+									{
+										field : 'cols',
+										title : '列',
+
+									},
+									{
+										field : 'hallseat_info',
+										title : '座位信息',
+										cellStyle : function(row, index) {
+											var style = {};
+											style = {
+												css : {
+													'display' : 'none'
+												}
+											};
+											return style;
+										}
+									},
+									{
+										field : '',
+										title : 'Button',
+
+										formatter : function(value, row, index) {
+											var str = "<a href='' class='btn btn-primary' onclick='ChaKanYingTing(this)' data-toggle='modal' data-target='#XianShiYingTing'> 查看影厅座位</a>&nbsp;";
+											str += "<a href='' class='btn btn-primary' onclick='BianJiYingTing(this)' data-toggle='modal' data-target='#BianJiYingTing'> 编辑影厅座位</a>&nbsp;";
+											str += "<a href='' class='btn btn-primary' onclick='XiuGaiJiBen(this)' data-toggle='modal' data-target='#XiuGai'> 修改影厅基本信息</a>&nbsp;";
+											str += "<a href='' class='btn btn-danger' onclick='Delete(this)' data-toggle='modal' data-target='#Delete'> 删除</a>";
+											return str;
+										},
+
+									},
+
+							]
+						});
+		$('#table').children().children().children('th').eq(0).css("display",
+				"none");
+		$('#table').children().children().children('th').eq(5).css("display",
+				"none");
+
+	})
+
+	function ChaKanYingTing(a) {
+		//获取当前影厅影厅的id
+		var hall_id = $(a).parent().parent().children('td').eq(0).text();
+		var path="userBuyFilm/showhallseat.action?hall_id="+hall_id;
+		$("#XianShiYingTingModal").attr('src',path); 
+	}
+	/*	 function ChaKanYingTingModal(){
+		 	
+		 }*/
+
+	function BianJiYingTing(a) {
+		/*获取选中行影厅的id*/
+		var hall_id = $(a).parent().parent().children('td').eq(0).text();
+		 var path="set/setnew.action?hall_id="+hall_id; 
+	 	
+		$("#BianJiYingTingModal").attr('src',path);  
+
+	}
+	/*  function BianJiYingTingModal(){
+	 
+	 	
+	 }*/
+
+	function XiuGaiJiBen(a) {
+		for (var i = 0; i < 6; i++) {
+			var a1 = $(a).parent().parent().children('td').eq(i).text();
+			$(("#XiuGaiMadal" + i)).val(a1);
+		}
+
+	}
+
+	function XiuGaiJiBenModal() {
+		$.ajax({
+			type : "post",
+			url : "hall/updateMyHall.action",
+			data : {
+				hall_id : $("#XiuGaiMadal0").val(),
+				hall_name : $("#XiuGaiMadal1").val(),
+				upper_limit : $("#XiuGaiMadal2").val(),
+				rows : $("#XiuGaiMadal3").val(),
+				cols : $("#XiuGaiMadal4").val(),
+				hallseat_info : $("#XiuGaiMadal5").val(),
+
+			},
+			success : function(rs) {
+				if (rs) {
+					window.location.reload();
+				} else {
+					alert("修改失败");
+				}
+			},
+			async : true
+		});
+	}
+
+	function Delete(a) {
+		var a1 = $(a).parent().parent().children('td').eq(1).text();
+		var a0 = $(a).parent().parent().children('td').eq(0).text();
+		$("#hall_id").html(a0);
+		$("#hall_name").html(a1);
+	}
+
+	function DeleteModal() {
+		$.ajax({
+			type : "post",
+			url : "hall/deleteMyHall.action",
+			data : {
+				hall_id : $("#hall_id").text()
+			},
+			success : function(rs) {
+				if (rs) {
+					window.location.reload();
+				} else {
+					alert("删除失败");
+				}
+			},
+			async : true
+		});
+	}
+
+	function TianJiaModal() {
+		$.ajax({
+			type : "post",
+			url : "hall/addNewHall.action",
+			data : {
+				hall_id : $("#TianJiaMadal0").val(),
+				hall_name : $("#TianJiaMadal1").val(),
+				upper_limit : $("#TianJiaMadal2").val(),
+				rows : $("#TianJiaMadal3").val(),
+				cols : $("#TianJiaMadal4").val(),
+				hallseat_info : $("#TianJiaMadal5").val(),
+
+			},
+			success : function(rs) {
+				if (rs) {
+					window.location.reload();
+				} else {
+					alert("修改失败");
+				}
+			},
+			async : true
+		});
+	}
+</script>
+
+</head>
+
+<body>
+	<div class="panel panel-default" style="width: 98%;">
+		<div class="panel-heading">
+			<h4>
+				<span class="glyphicon glyphicon-user"></span> 影厅管理
+			</h4>
+		</div>
+		<div class="row" align="left" style="padding: 0 15px 0 25px;">
+			<h3 style="color: #0E90D2;">请选择操作</h3>
+			<br />
+			<div class="col-md-2 ">
+				<a href="#" class="btn btn-success glyphicon glyphicon-plus "
+					data-toggle="modal" data-target="#TianJia">增加影厅</a>
+			</div>
+		</div>
+		<!--分隔带-->
+		<p class="bg-info" style="margin-top: 20px;">&nbsp;</p>
+
+		<!--已有影厅-->
+		<div class="panel-body" align="center" style="margin-top: 10px;">
+			<h3 style="color: #0E90D2; margin-top: 0px;" align="left">已有影厅</h3>
+			<br />
+			<table id="table">
+
+			</table>
+
+		</div>
+	</div>
+
+</body>
+<!--添加影厅-->
+<div class="modal fade" id="TianJia" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabe2">修改影厅基本信息</h4>
+			</div>
+			<div class="modal-body" style="color: dodgerblue;">
+				<form name="ChangeShowMovieTime" action="#" method="#">
+					<table width="auto" align="center" border="0"
+						style="border-collapse: separate; border-spacing: 10px;">
+						<input type="hidden" class="form-control" id="TianJiaMadal0"
+							required="required" />
+						<tr>
+							<td width="25%">影厅名：</td>
+							<td width="75%"><input type="text" class="form-control"
+								id="TianJiaMadal1" required="required" /></td>
+						</tr>
+						<tr>
+							<td width="25%">最大容纳量：</td>
+							<td width="75%"><input type="number" class="form-control"
+								id="TianJiaMadal2" required="required" /></td>
+						</tr>
+
+						<tr>
+							<td width="25%">行：</td>
+							<td width="75%"><input type="number" class="form-control"
+								id="TianJiaMadal3" required="required" /></td>
+						</tr>
+						<tr>
+							<td width="25%">列：</td>
+							<td width="75%"><input type="number" class="form-control"
+								id="TianJiaMadal4" required="required" /></td>
+						</tr>
+						<input type="hidden" class="form-control" id="TianJiaMadal5"
+							required="required" value="cccc" />
+
+					</table>
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button id="XiuGaiJiBenModal" onclick="TianJiaModal()" type="submit"
+					class="btn btn-primary" data-dismiss="modal">确定修改</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--显示影厅-->
+<div class="modal fade" id="XianShiYingTing" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabe1">查看影厅座位</h4>
+			</div>
+			<div class="modal-body" style="color: dodgerblue;">
+				 <iframe id="XianShiYingTingModal" src="" name="mainFream"
+					frameborder="0" scrolling="auto" height="800px" width="100%">
+				</iframe> 
+			</div>
+			<!--<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="submit" class="btn btn-primary" id="addDept" onclick="addMovie()" data-dismiss="modal">确定增加</button>
+				</div>-->
+		</div>
+	</div>
+</div>
+<!--编辑影厅-->
+<div class="modal fade"  id="BianJiYingTing" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" style="width:800px;" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabe1">编辑影厅座位</h4>
+			</div>
+			<div class="modal-body" style="width:800px;" style="color: dodgerblue;">
+				<iframe id="BianJiYingTingModal" src=""
+					name="mainFream" frameborder="0" scrolling="auto" height="500px"
+					width="100%"> </iframe>
+			</div>
+			
+		</div>
+	</div>
+</div>
+<!--修改基本信息-->
+<div class="modal fade" id="XiuGai" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabe2">修改影厅基本信息</h4>
+			</div>
+			<div class="modal-body" style="color: dodgerblue;">
+				<form name="ChangeShowMovieTime" action="#" method="#">
+					<table width="auto" align="center" border="0"
+						style="border-collapse: separate; border-spacing: 10px;">
+						<input type="hidden" class="form-control" id="XiuGaiMadal0"
+							required="required" />
+						<tr>
+							<td width="25%">影厅名：</td>
+							<td width="75%"><input type="text" class="form-control"
+								id="XiuGaiMadal1" required="required" /></td>
+						</tr>
+						<tr>
+							<td width="25%">最大容纳量：</td>
+							<td width="75%"><input type="number" class="form-control"
+								id="XiuGaiMadal2" required="required" /></td>
+						</tr>
+
+						<tr>
+							<td width="25%">行：</td>
+							<td width="75%"><input type="number" class="form-control"
+								id="XiuGaiMadal3" required="required" /></td>
+						</tr>
+						<tr>
+							<td width="25%">列：</td>
+							<td width="75%"><input type="number" class="form-control"
+								id="XiuGaiMadal4" required="required" /></td>
+						</tr>
+						<input type="hidden" class="form-control" id="XiuGaiMadal5"
+							required="required" />
+
+					</table>
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button id="XiuGaiJiBenModal" onclick="XiuGaiJiBenModal()"
+					type="submit" class="btn btn-primary" data-dismiss="modal">确定修改</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--删除上映中电影-->
+<div class="modal fade" id="Delete" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabe3">取消上映</h4>
+			</div>
+			<div class="modal-body" style="color: dodgerblue;">
+				<span style="display: none;" id="hall_id"></span>
+				<h3>
+					确定删除影厅：<span id="hall_name"></span>？
+				</h3>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button id="DeleteModal" onclick="DeleteModal()" type="button"
+					class="btn btn-primary" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+</html>

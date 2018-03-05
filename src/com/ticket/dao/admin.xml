@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ticket.dao.IAdminMapper">
+	<resultMap type="com.ticket.entity.Admin" id="AdminResults">
+		<id column="admin_id" property="admin_id" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="admin_pwd" property="admin_pwd" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="emp_id" property="emp_id" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="emp_name" property="emp_name" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="emp_phone" property="emp_phone" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="emp_email" property="emp_email" jdbcType="VARCHAR"
+			javaType="String" />
+	</resultMap>
+</mapper>

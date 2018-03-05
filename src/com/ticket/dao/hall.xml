@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ticket.dao.IHallMapper">
+	<resultMap type="com.ticket.entity.Hall" id="HallResults">
+		<id column="theatre_id" property="theatre_id" jdbcType="VARCHAR"
+			javaType="String" />
+		<id column="hall_id" property="hall_id" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="hall_name" property="hall_name" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="hallseat_info" property="hallseat_info"
+			jdbcType="VARCHAR" javaType="String" />
+		<result column="upper_limit" property="upper_limit" jdbcType="INTEGER"
+			javaType="int" />
+		<result column="rows" property="rows" jdbcType="INTEGER"
+			javaType="int" />
+		<result column="cols" property="cols" jdbcType="INTEGER"
+			javaType="int" />
+	</resultMap>
+	<resultMap type="com.ticket.entity.BeonDetail" id="BeonDetailResults">
+		<id column="theatre_id" property="theatre_id" jdbcType="VARCHAR"
+			javaType="String" />
+		<id column="film_id" property="film_id" jdbcType="VARCHAR"
+			javaType="String" />
+		<id column="hall_id" property="hall_id" jdbcType="VARCHAR"
+			javaType="String" />
+		<id column="beon_time" property="beon_time" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="version" property="version" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="beon_seatnum" property="beon_seatnum" jdbcType="INTEGER"
+			javaType="int" />
+		<result column="beon_seatinfo" property="beon_seatinfo"
+			jdbcType="VARCHAR" javaType="String" />
+		<result column="price" property="price" jdbcType="INTEGER"
+			javaType="Double" />
+	</resultMap>
+	<insert id="addNewHall" parameterType="com.ticket.entity.Hall">
+		insert into hall
+		values(#{theatre_id},#{hall_id},#{hall_name},#{upper_limit},#{rows},#{cols},#{hallseat_info},null);
+	</insert>
+	<select id="getMyHallInfoAll" parameterType="String" resultMap="HallResults">
+		select * from hall where theatre_id = #{0} order by hall_name asc;
+	</select>
+	<update id="updateMyHall" parameterType="com.ticket.entity.Hall">
+		update hall set
+		hall_name = #{hall_name} ,
+		upper_limit = #{upper_limit} , rows =
+		#{rows} , cols = #{cols} ,
+		hallseat_info = #{hallseat_info} where
+		theatre_id = #{theatre_id} and
+		hall_id = #{hall_id};
+	</update>
+	<delete id="deleteMyHall" parameterType="String">
+		delete from hall where
+		theatre_id = #{0} and hall_id = #{1};
+	</delete>
+	<delete id="deleteMyHallWithBeon" parameterType="String">
+		delete from
+		beon_detail where theatre_id = #{0} and
+		hall_id =
+		#{1};
+	</delete>
+</mapper>

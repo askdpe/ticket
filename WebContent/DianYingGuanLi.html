@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title></title>
+<script src="js/jquery-1.10.2.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<!-- ajaxSubmit异步上传二进制js -->
+<script src="media/js/jquery.form.js" type="text/javascript"></script>
+<script src="media/js/fileload.js" type="text/javascript"></script>
+<script type="text/javascript"
+	src="bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+<script type="text/javascript"
+	src="bootstrap-3.3.7-dist/js/bootstrap-table.js"></script>
+<link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css" />
+<link rel="stylesheet"
+	href="bootstrap-3.3.7-dist/css/bootstrap-table.css" />
+<script type="text/javascript">
+	//删除已经下档电影
+	$(function() {
+		$.ajax({
+			url : "film/deleteMyBeoff.action",
+			success : function(result) {
+				//alert(result);
+			},
+			error : function() {
+				alert("服务端连接失败");
+			}
+		});
+	})
+
+	//提交请求获取电影列表
+	$(function() {
+		$('#movieKu')
+				.bootstrapTable(
+						{
+							url : 'film/getFilmInfoNotInMyBeon.action',
+							cache : false,
+							pagination : true,
+							pageSize : 5,
+
+							columns : [
+									{
+										field : 'film_id',
+										title : 'ID',
+										cellStyle : function(row, index) {
+											var style = {};
+											style = {
+												css : {
+													'display' : 'none'
+												}
+											};
+											return style;
+										}
+
+									/* visible : false */
+									},
+									{
+										field : 'film_name',
+										title : '电影名',
+
+									},
+									{
+										field : 'film_picture',
+										title : '图片',
+										formatter : function(value, row, index) {
+											return "<div style=' width:100px;height:80px;'><img style=' max-width:100px; max-height:80px;' src='"+row.film_picture+"'></div>";
+										}
+									},
+									{
+										field : 'film_director',
+										title : '导演',
+
+									},
+									{
+										field : 'film_performer',
+										title : '演员',
+
+									},
+									{
+										field : 'film_type',
+										title : '类型',
+
+									},
+									{
+										field : 'film_area',
+										title : '地区',
+
+									},
+									{
+										field : 'film_language',
+										title : '语言',
+
+									},
+									{
+										field : 'film_time',
+										title : '时长',
+
+									},
+									{
+										field : 'film_synopsis',
+										title : '简介',
+
+									},
+									{
+										field : '',
+										title : '操作',
+
+										formatter : function(value, row, index) {
+											return "<a href='' class='btn btn-primary' onclick='showon(this)' data-toggle='modal' data-target='#ShowMovie'> 上映</a>";
+										},
+
+									},
+
+							]
+						});
+		$('#movieKu').children().children().children('th').eq(0).css("display",
+				"none");
+	})
+	//提交请求获取正在放映列表
+	$(function() {
+		$('#show_on_table')
+				.bootstrapTable(
+						{
+							url : 'film/showMyBeon.action',
+							cache : false,
+							pagination : true,
+							pageSize : 5,
+
+							columns : [
+									{
+										field : 'film_id',
+										title : 'ID',
+										cellStyle : function(row, index) {
+											var style = {};
+											style = {
+												css : {
+													'display' : 'none'
+												}
+											};
+											return style;
+										}
+
+									},
+									{
+										field : 'film_name',
+										title : '电影名'
+									},
+									{
+										field : 'film_picture',
+										title : '图片',
+										formatter : function(value, row, index) {
+											return "<div style=' width:100px;height:80px;'><img style=' max-width:100px; max-height:80px;' src='"+row.film_picture+"'></div>";
+										}
+
+									},
+									{
+										field : 'film_director',
+										title : '导演',
+
+									},
+									{
+										field : 'film_performer',
+										title : '演员',
+
+									},
+									{
+										field : 'be_on',
+										title : '上映时间',
+
+									},
+									{
+										field : 'be_off',
+										title : '下档时间',
+
+									},
+									{
+										field : '',
+										title : '操作',
+
+										formatter : function(value, row, index) {
+											return "<a href='' class='btn btn-danger' onclick='delMovieName(this)' data-toggle='modal' data-target='#DelMovie'> 删除</a>";
+										},
+
+									},
+
+							]
+						});
+		$('#show_on_table').children().children().children('th').eq(0).css(
+				"display", "none");
+	})
+	//添加电影
+	function addMovie() {
+		var formData = new FormData($("#formGrade")[0]);
+		//alert(formData);   addNewFilm
+		$('#formGrade').ajaxSubmit({
+			url : "film/addNewFilm.action", //请求的url地址	
+			type : 'POST',
+			data : formData,
+			cache : false,
+			contentType : false,
+			processData : false,
+			dataType : "text",
+			success : function(result) {
+				alert(":" + result);
+				if (result.indexOf("success") != -1) {
+					window.location.reload();
+					alert("添加成功！");
+				} else if (result.indexOf("exist") != -1) {
+					alert("影库中已存在！");
+				} else {
+					alert("添加失败，请重新添加");
+				}
+			},
+			error : function() {
+				alert("数据库链接失败！");
+			}
+		});
+	}
+	//上映电影添加上映时间
+	function showMovieTime() {
+		$.ajax({
+			url : "film/addNewBeon.action",
+			data : {
+				"film_id" : $("#showMovieNamefilm_id").val(),
+				"be_on" : $("#beon").val(),
+				"be_off" : $("#bedown").val()
+			},
+			success : function(result) {
+				//alert(result);
+				if (result) {
+					window.location.reload();
+					alert("添加成功！");
+				} else {
+					alert("插入失败！");
+				}
+			},
+			error : function() {
+				alert("数据库链接失败！");
+			}
+		});
+	}
+
+	//上映获取电影名
+	function showon(a) {
+		var a1 = $(a).parent().parent().children('td').eq(0).text();
+		var a2 = $(a).parent().parent().children('td').eq(1).text();
+		console.log(a1);
+		console.log(a2);
+		$("#showMovieName").html(a2);
+		$("#showMovieNamefilm_id").val(a1);
+
+	}
+
+	//获取删除的电影名
+	function delMovieName(a) {
+		var a1 = $(a).parent().parent().children('td').eq(0).text();
+		var a2 = $(a).parent().parent().children('td').eq(1).text();
+		$("#showdeleteShowMovieName").html(a2);
+		$("#showdeleteShowMovieid").html(a1);
+
+	}
+	//删除电影
+	function deleteShowMovie() {
+		$.ajax({
+			type : "post",
+			url : "film/deleteMyBeon.action",
+			data : {
+				film_id : $("#showdeleteShowMovieid").html(),
+			},
+			success : function(rs) {
+				if (rs) {
+					window.location.reload();
+				} else {
+					alert("删除失败")
+				}
+			},
+
+		});
+	}
+</script>
+
+</head>
+
+<body>
+	<div class="panel panel-default" style="width: 98%;">
+		<div class="panel-heading">
+			<h4>
+				<span class="glyphicon glyphicon-user"></span> 电影管理
+			</h4>
+		</div>
+		<div class="row" align="left" style="padding: 0 15px 0 25px;">
+			<h3 style="color: #0E90D2;">请选择操作</h3>
+			<br />
+			<div class="col-md-2 ">
+				<a href="#" class="btn btn-success glyphicon glyphicon-plus "
+					data-toggle="modal" data-target="#AddBumen">增加电影</a>
+			</div>
+		</div>
+		<!--分隔带-->
+		<p class="bg-info" style="margin-top: 20px;">&nbsp;</p>
+
+		<!--上映中电影-->
+		<div class="panel-body" align="center" style="margin-top: 10px;">
+			<h3 style="color: #0E90D2; margin-top: 0px;" align="left">上映中电影</h3>
+			<br />
+			<table class="table table-hover table-bordered" id="show_on_table">
+
+			</table>
+
+		</div>
+	</div>
+	<!--电影信息-->
+	<div class="panel-body" align="center" style="margin-top: 10px;">
+		<h3 style="color: #0E90D2; margin-top: 0px;" align="left">电影库</h3>
+		<br />
+		<table class="table table-hover table-bordered" id="movieKu">
+
+		</table>
+
+	</div>
+
+
+
+</body>
+
+<!--添加电影-->
+<div class="modal fade" id="AddBumen" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabe1">新增电影</h4>
+			</div>
+			<div class="modal-body" style="color: dodgerblue;">
+				<form id="formGrade" name="formGrade" action="" method="post"
+					enctype="multipart/form-data">
+					<table width="auto" align="center" border="0"
+						style="border-collapse: separate; border-spacing: 10px;">
+						<input type="hidden" id="film_id" name="film_id" value="1" />
+						<tr>
+							<td width="25%">电影名称：</td>
+							<td width="75%"><input type="text" class="form-control"
+								placeholder="请输入电影名称" id="film_name" name="film_name"
+								required="required" /></td>
+						</tr>
+						<tr>
+							<td width="25%">添加图片：</td>
+							<td width="75%"><input type="file" name="filmp" /> <input
+								type="hidden" id="film_picture" name="film_picture" value="/a" /></td>
+						</tr>
+						<tr>
+							<td width="25%">影片时长：</td>
+							<td width="75%"><input type="number" class="form-control"
+								id="film_time" name="film_time" required="required" /></td>
+						</tr>
+						<tr>
+							<td width="25%">导演：</td>
+							<td width="75%"><input type="text" class="form-control"
+								placeholder="请输入导演名称" id="film_director" name="film_director"
+								required="required" /></td>
+						</tr>
+						<tr>
+							<td width="25%">演员：</td>
+							<td width="75%"><input type="text" class="form-control"
+								placeholder="请输入导演名称" id="film_performer" name="film_performer"
+								required="required" /></td>
+						</tr>
+						<tr>
+							<td width="25%">电影原产国：</td>
+							<td width="75%"><input type="text" class="form-control"
+								placeholder="请输入导演名称" id="film_area" name="film_area"
+								required="required" /></td>
+						</tr>
+						<tr>
+							<td width="25%">语言：</td>
+							<td width="75%"><input type="text" class="form-control"
+								placeholder="请输入导演名称" id="film_language" name="film_language"
+								required="required" /></td>
+						</tr>
+						<tr>
+							<td width="25%">类型：</td>
+							<td width="75%"><input type="text" class="form-control"
+								placeholder="请输入导演名称" id="film_type" name="film_type"
+								required="required" /></td>
+						</tr>
+						<tr>
+							<td width="25%">剧情简介：</td>
+							<td width="75%"><textarea style="width: 100%;" rows="5"
+									id="film_synopsis" name="film_synopsis"></textarea></td>
+						</tr>
+					</table>
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-primary" id="addDept"
+					onclick="addMovie()" data-dismiss="modal">确定增加</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--上映电影-->
+<div class="modal fade" id="ShowMovie" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabe2">修改电影</h4>
+			</div>
+			<div class="modal-body" style="color: dodgerblue;">
+				<form name="ChangeShowMovieTime" action="#" method="post">
+					<table width="auto" align="center" border="0"
+						style="border-collapse: separate; border-spacing: 10px;">
+						<input type="hidden" class="form-control"
+							id="showMovieNamefilm_id" name="film_id" />
+						<tr>
+							<td width="25%">电影名：</td>
+							<td width="75%" id="showMovieName"></td>
+						</tr>
+
+
+						<tr>
+							<td width="25%">上映时间：</td>
+							<td width="75%"><input type="date" class="form-control"
+								id="beon" name="be_on" required="required" /></td>
+						</tr>
+						<tr>
+							<td width="25%">下档时间：</td>
+							<td width="75%"><input type="date" class="form-control"
+								id="bedown" name="be_off" required="required" /></td>
+						</tr>
+					</table>
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button id="showMovieTime" onclick="showMovieTime()" type="submit"
+					class="btn btn-primary" data-dismiss="modal">确定修改</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--删除上映中电影-->
+<div class="modal fade" id="DelMovie" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabe3">取消上映</h4>
+			</div>
+			<div class="modal-body" style="color: dodgerblue;">
+				<span style="display: none;" id="showdeleteShowMovieid"></span>
+				<h3>
+					确定取消上映电影：<span id="showdeleteShowMovieName"></span>？
+				</h3>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button id="deleteDept" onclick="deleteShowMovie()" type="button"
+					class="btn btn-primary" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+</html>

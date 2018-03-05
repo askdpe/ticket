@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ticket.dao.IUserBuyFilmMapper">
+	<resultMap id="FilmResults" type="com.ticket.entity.Film">
+		<id column="film_name" property="film_name" jdbcType="VARCHAR" javaType="string" />
+		<result column="film_id" property="film_id" jdbcType="VARCHAR" javaType="string" />
+		<result column="film_director" property="film_director" jdbcType="VARCHAR" javaType="string" />
+		<result column="film_performer" property="film_performer" jdbcType="VARCHAR" javaType="string" />
+		<result column="film_type" property="film_type" jdbcType="VARCHAR" javaType="string" />
+		<result column="film_area" property="film_area" jdbcType="VARCHAR" javaType="string" />
+		<result column="film_language" property="film_language" jdbcType="VARCHAR" javaType="string" />
+		<result column="film_time" property="film_time" jdbcType="VARCHAR" javaType="string" />
+		<result column="film_synopsis" property="film_synopsis" jdbcType="VARCHAR" javaType="string" />
+		<result column="film_picture" property="film_picture" jdbcType="VARCHAR" javaType="string" />
+		<result column="film_comments" property="film_comments" jdbcType="VARCHAR" javaType="string" />
+		<association  property="beon"  javaType="com.ticket.entity.Beon" resultMap="BeonResults"></association>
+		<association  property="beonDetail"  javaType="com.ticket.entity.Beon" resultMap="BeonResults"></association>
+	</resultMap>
+	<resultMap id="BeonResults" type="com.ticket.entity.Beon">
+		<result column="theatre_id" property="theatre_id" jdbcType="VARCHAR" javaType="string" />
+		<result column="film_id" property="film_id" jdbcType="VARCHAR" javaType="string" />
+		<result column="be_on" property="be_on" jdbcType="VARCHAR" javaType="string" />
+		<result column="be_off" property="be_off" jdbcType="VARCHAR" javaType="string" />
+		<result column="beon_comments" property="beon_comments" jdbcType="VARCHAR" javaType="string" />
+		<association  property="film"  javaType="com.ticket.entity.Film" resultMap="FilmResults"></association>
+	</resultMap>
+	<resultMap id="BeonDetailResults" type="com.ticket.entity.BeonDetail">
+		<id column="theatre_id" property="theatre_id" jdbcType="VARCHAR" javaType="string" />
+		<id column="film_id" property="film_id" jdbcType="VARCHAR" javaType="string" />
+		<id column="hall_id" property="hall_id" jdbcType="VARCHAR" javaType="string" />
+		<id column="beon_time" property="beon_time" jdbcType="VARCHAR" javaType="string" />
+		<id column="beon_seatinfo" property="beon_seatinfo" jdbcType="VARCHAR" javaType="string" />
+		<result column="version" property="version" jdbcType="VARCHAR" javaType="string" />
+		<result column="price" property="price" jdbcType="INTEGER" javaType="Integer" />
+		<result column="beon_seatnum" property="beon_seatnum" jdbcType="INTEGER" javaType="Integer" />
+		<result column="beon_comments" property="beon_comments" jdbcType="VARCHAR" javaType="string" />
+		<association  property="film"  javaType="com.ticket.entity.Film" resultMap="FilmResults"></association>
+		<association  property="theatre"  javaType="com.ticket.entity.Theatre" resultMap="TheatreResults"></association> 
+		<association  property="hall"  javaType="com.ticket.entity.Hall" resultMap="HallResults"></association> 
+		<association  property="filmTicket"  javaType="com.ticket.entity.FilmTicket" resultMap="FilmTicketResults"></association> 
+	</resultMap>
+	<resultMap id="TheatreResults" type="com.ticket.entity.Theatre">
+		<id column="theatre_id" property="theatre_id" jdbcType="VARCHAR" javaType="string" />
+		<result column="theatre_name" property="theatre_name" jdbcType="VARCHAR" javaType="string" />
+		<result column="theatre_address" property="theatre_address" jdbcType="VARCHAR" javaType="string" />
+		<result column="zone_id" property="zone_id" jdbcType="VARCHAR" javaType="string" />
+		<result column="theatre_head" property="theatre_head" jdbcType="VARCHAR" javaType="string" />
+		<result column="theatre_phone" property="theatre_phone" jdbcType="VARCHAR" javaType="string" />
+		<result column="theatre_account" property="theatre_account" jdbcType="VARCHAR" javaType="string" />
+		<result column="theatre_pwd" property="theatre_pwd" jdbcType="VARCHAR" javaType="string" />
+		<result column="theatre_statust" property="theatre_statust" jdbcType="VARCHAR" javaType="string" />
+		<result column="theatre_comments" property="theatre_comments" jdbcType="VARCHAR" javaType="string" />
+		<!-- <association  property="beonDetail"  javaType="com.ticket.entity.Beon" resultMap="BeonResults"></association> -->
+	</resultMap>
+	<resultMap id="HallResults" type="com.ticket.entity.Hall">
+		<id column="hall_id" property="hall_id" jdbcType="VARCHAR" javaType="string" />
+		<result column="theatre_id" property="theatre_id" jdbcType="VARCHAR" javaType="string" />
+		<result column="hall_name" property="hall_name" jdbcType="VARCHAR" javaType="string" />
+		<result column="hallseat_info" property="hallseat_info" jdbcType="VARCHAR" javaType="string" />
+		<result column="hall_comments" property="hall_comments" jdbcType="VARCHAR" javaType="string" />
+		<!-- <association  property="beonDetail"  javaType="com.ticket.entity.Beon" resultMap="BeonResults"></association> -->
+	</resultMap>
+	<resultMap id="FilmTicketResults" type="com.ticket.entity.FilmTicket">
+		<id column="ticket_id" property="ticket_id" jdbcType="VARCHAR" javaType="string" />
+		<result column="theatre_id" property="theatre_id" jdbcType="VARCHAR" javaType="string" />
+		<result column="hall_id" property="hall_id" jdbcType="VARCHAR" javaType="string" />
+		<result column="film_id" property="film_id" jdbcType="VARCHAR" javaType="string" />
+		<result column="beon_time" property="beon_time" jdbcType="VARCHAR" javaType="string" />
+		<result column="seat_info" property="seat_info" jdbcType="VARCHAR" javaType="string" />
+		<result column="uname" property="uname" jdbcType="VARCHAR" javaType="string" />
+		<result column="pay_type" property="pay_type" jdbcType="VARCHAR" javaType="string" />
+		<result column="pay_time" property="pay_time" jdbcType="VARCHAR" javaType="string" />
+		<result column="ticket_comments" property="ticket_comments" jdbcType="VARCHAR" javaType="string" />
+		<result column="pay_price" property="pay_price" jdbcType="INTEGER" javaType="Integer" />
+		<result column="seat_num" property="seat_num" jdbcType="INTEGER" javaType="Integer" />
+		<association  property="film"  javaType="com.ticket.entity.Film" resultMap="FilmResults"></association>
+		<association  property="theatre"  javaType="com.ticket.entity.Theatre" resultMap="TheatreResults"></association> 
+		<association  property="hall"  javaType="com.ticket.entity.Hall" resultMap="HallResults"></association> 
+	</resultMap>
+	<select id="SelectNewFilmOrder" resultMap="FilmResults">
+		select f.film_name,b.be_on,f.film_picture from beon as b,film as f where b.film_id=f.film_id group by b.film_id;
+	</select>
+	<select id="SelectHotFilmOrder" resultMap="FilmResults">
+		select * from (select count(*) as num,f.film_name,f.film_picture from film_ticket as t,film as f where t.film_id=f.film_id group by t.film_id) as tmp ORDER BY num desc;
+	</select>
+	<select id="SelectAllBeonTime" resultMap="BeonDetailResults" >
+		select f.film_name,b.beon_time,f.film_director,f.film_performer,f.film_type,f.film_area,f.film_language,f.film_time,f.film_picture,f.film_synopsis from beon_detail as b,film as f where b.film_id=f.film_id and f.film_name=#{film.film_name} order by b.beon_time;
+	</select>
+	<select id="SelectBeonDetailByTime" resultMap="BeonDetailResults" >
+		select f.film_name,t.theatre_name,h.hall_name,b.beon_time,b.price from beon_detail as b,film as f,theatre as t,hall as h where b.film_id = f.film_id and b.theatre_id=t.theatre_id and b.hall_id=h.hall_id  and b.hall_id=h.hall_id and f.film_name=#{film.film_name} and  DATE_FORMAT(b.beon_time,'%Y-%m-%d') LIKE #{beon_time}; 
+	</select>
+	<select id="SelectBeonSeatinfo" resultType="java.lang.String" useCache="false">
+		select b.beon_seatinfo from film as f,beon_detail as b,theatre as t,hall as h where b.film_id=f.film_id and b.theatre_id=t.theatre_id and b.hall_id=h.hall_id and f.film_name=#{film.film_name} and t.theatre_name=#{theatre.theatre_name} and h.hall_name=#{hall.hall_name} and b.beon_time=#{beon_time};
+	</select>
+	<select id="SelectHallSeatinfo" resultType="java.lang.String" useCache="false">
+		select h.hallseat_info from theatre as t,hall as h where t.theatre_id=h.theatre_id  and t.theatre_name=#{0} and h.hall_name=#{1}
+	</select>
+	<select id="SelectFilmInfo" resultMap="FilmResults" >
+		select film_name,film_language,film_time,film_picture from film where film_name = #{0};
+	</select>
+	<update id="UpdateLockSeat" parameterType="com.ticket.entity.BeonDetail">
+    	update beon_detail as b set b.beon_seatinfo = #{beon_seatinfo} where b.theatre_id=(select theatre_id from theatre where theatre_name = #{theatre.theatre_name}) and b.film_id=(select film_id from film where film_name = #{film.film_name}) and b.hall_id=(select hall_id from hall where hall_name= #{hall.hall_name}) and b.beon_time=#{beon_time};
+    </update>
+	<insert id="AddWaitPay"  parameterType="com.ticket.entity.FilmTicket">
+    	insert into film_ticket() value(#{ticket_id},(select theatre_id from theatre where theatre_name= #{theatre.theatre_name}),(select hall_id from hall where hall_name= #{hall.hall_name}),(select film_id from film where film_name= #{film.film_name}),#{beon_time},#{seat_info},#{seat_num},#{lockseat_time},#{pay_price},#{uname},'0000-01-01 00:00:00','wait','无');
+    </insert>
+	<update id="UpdateFilmPayInfo" parameterType="com.ticket.entity.FilmTicket">
+		update film_ticket set pay_type= #{pay_type}, pay_time=#{pay_time} where ticket_id=#{ticket_id};
+    </update>
+	<select id="SelectFilmPayInfo" resultType="com.ticket.entity.FilmTicket" >
+		select ticket_id,theatre_id,hall_id,film_id,beon_time,seat_info,lockseat_time,uname,pay_type,pay_time,pay_price,seat_num from film_ticket where ticket_id = #{ticket_id};
+	</select>
+	 <delete id="DeleteFilmPayInfo">
+     	delete from film_ticket where ticket_id = #{0};
+    </delete>
+    <select id="SelectBeonSeatinfoById" resultMap="BeonDetailResults" useCache="false">
+		select b.beon_seatinfo,b.theatre_id,b.film_id,b.hall_id from beon_detail as b, film_ticket as f where b.film_id=f.film_id and b.theatre_id = f.theatre_id and b.hall_id=f.hall_id and b.beon_time=f.beon_time and f.ticket_id=#{0};
+	</select>
+</mapper>
+
+
+ 

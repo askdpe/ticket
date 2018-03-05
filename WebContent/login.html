@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+	<head lang="en">
+		<meta charset="UTF-8">
+		<title>登录</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+		<link rel="stylesheet" href="AmazeUI-2.4.2/assets/css/amazeui.css" />
+		<link href="css/dlstyle.css" rel="stylesheet" type="text/css">
+		<script src="AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
+		
+		
+		
+		 <style type="text/css">
+        .code{
+            font-style:italic;  color:blue;  font-size:30px;  border:0;  padding:2px 3px; letter-spacing:3px;  font-weight:bolder;
+            float:left;  cursor:pointer;  width:150px;  height:60px;  line-height:60px;  text-align:center;  vertical-align:middle;  }
+      
+    </style>
+		
+		
+		<script>
+        var code;
+        
+         function createCode() {
+            code = "";
+            var codeLength = 4; //验证码的长度
+            var checkCode = document.getElementById("checkCode");
+            var codeChars = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+                    'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',
+                    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'); //所有候选组成验证码的字符，当然也可以用中文的
+            for (var i = 0; i < codeLength; i++)
+            {
+                var charNum = Math.floor(Math.random() * 52);
+                code += codeChars[charNum];
+            }
+            if (checkCode)
+            {
+                checkCode.className = "code";
+                checkCode.innerHTML = code;
+            }
+        }
+         window.onload = function() {
+         	createCode();
+         }
+         
+        function validateCode()
+        {
+            var inputCode = document.getElementById("inputCode").value;
+            var uname = document.getElementById("user").value;
+            var upwd = document.getElementById("password").value;
+            
+           if (uname.length <= 0)
+            {
+                tip.innerHTML = "请输入用户名";
+							tip.style.color = "red";
+							tip.style.marginBottom = "10px";
+							tip.style.display = "block";
+							tip.style.textAlign = "center";
+							return false;
+							
+            } 
+           else if (upwd.length <= 0)
+            {
+                tip.innerHTML = "请输入密码";
+							tip.style.color = "red";
+							tip.style.marginBottom = "10px";
+							tip.style.display = "block";
+							tip.style.textAlign = "center";
+							return false;
+							
+            } 
+            else if (inputCode.length <= 0)
+            {
+                tip.innerHTML = "请输入验证码";
+							tip.style.color = "red";
+							tip.style.marginBottom = "10px";
+							tip.style.display = "block";
+							tip.style.textAlign = "center";
+							return false;
+							
+            }
+            else if(inputCode.toUpperCase() != code.toUpperCase())
+            {
+                 tip.innerHTML = "验证码输入错误";
+							tip.style.color = "red";
+							tip.style.marginBottom = "10px";
+							tip.style.display = "block";
+							tip.style.textAlign = "center";
+                createCode();
+                return false;
+                
+            }
+           $.ajax({
+   			url : "userinfo/login.action",
+   			data : {
+   				"username" : $("#user").val(),
+   				"password" : $("#password").val()
+   			},
+   			success : function(result) {
+   				if (!result) {
+   					tip.innerHTML = "登录失败";
+   					tip.style.color = "red";
+   					tip.style.marginBottom = "10px";
+   					tip.style.marginTop = "-12px";
+   				} else if (result == "管理员"){
+   					window.location.href = "index_admin.html";
+   				} else if (result == "巡查员"){
+   					window.location.href = "index_inspector.html";
+   				}else {
+   					window.location.href = "home/home.html";
+   				}
+   			},
+   			error : function() {
+   				tip.innerHTML = "请求服务器失败";
+   				tip.style.color = "red";
+   				tip.style.marginBottom = "10px";
+   				tip.style.marginTop = "-12px";
+   			}
+
+   		});
+
+   		return false;
+           
+}
+        
+  
+    </script>
+	</head>
+
+	<body>
+
+		<div class="login-boxtitle">
+			<a href="home.html"><img alt="logo" src="images/logobig.png" /></a>
+		</div>
+
+		<div class="login-banner">
+			<div class="login-main">
+				<div class="login-banner-bg"><span></span><img src="images/big.jpg" /></div>
+				<div class="login-box">
+
+							<h3 class="title">登录</h3>
+
+							<div class="clear"></div>
+						
+						<div class="login-form">
+						  <form>
+							   <div class="user-name">
+								    <label for="user"><i class="am-icon-user"></i></label>
+								    <input type="text" name="" id="user" placeholder="账号/用户名">
+                 </div>
+                 <div class="user-pass">
+								    <label for="password"><i class="am-icon-lock"></i></label>
+								    <input type="password" name="" id="password" placeholder="请输入密码">
+                 </div>
+                  <div class="user-phone">
+								    <label for="password"><i class="am-icon-pencil"></i></label>
+								    <input type="text" name="" id="inputCode" placeholder="请输入验证码">
+                 </div>
+				
+				<div class="code" id="checkCode" onclick="createCode()" ></div>
+					
+				
+              </form>
+           </div>
+            
+            <div class="login-links">
+                <label for="remember-me"><a href="login2.html" class="am-fr">商家登录</a>
+								<a href="#" class="am-fr">忘记密码</a>
+								<a href="register.html" class="zcnext am-fr am-btn-default">注册</a>
+								
+								<br />
+								
+								<br /><br /><br />
+								<span id="tip"></span>
+            </div>
+								<div class="am-cf">
+									<input type="submit" name="" onclick="validateCode();" value="登 录" class="am-btn am-btn-primary am-btn-sm">
+								</div>
+						
+				</div>
+			</div>
+		</div>
+
+
+					<div class="footer ">
+						
+					</div>
+	</body>
+
+</html>

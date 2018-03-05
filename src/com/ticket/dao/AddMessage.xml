@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ticket.dao.AddMessage">
+ 
+      <insert id="addmessage"  parameterType="com.ticket.entity.message">
+      insert into message(talker,reader,content,time) values(#{talker},#{reader},#{content},now())
+    </insert>
+       <select id="pdnewfriend"  parameterType="com.ticket.entity.friend" resultType="int">
+      select count(*) from friend where (uname1=#{nuname1} and uname2=#{nuname2}) or (uname2=#{nuname1} and uname1=#{nuname2})
+    </select>
+       <insert id="addnewfriend"  parameterType="com.ticket.entity.friend">
+      insert into friend(uname1,uname2) values(#{nuname1},#{nuname2})
+    </insert>
+</mapper>

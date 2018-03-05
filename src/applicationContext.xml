@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	  http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	  http://www.springframework.org/schema/context
+	  http://www.springframework.org/schema/context/spring-context-4.2.xsd
+	  http://www.springframework.org/schema/mvc 
+      http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+      http://www.springframework.org/schema/tx 
+	  http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+	  http://www.springframework.org/schema/aop 
+	  http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+
+	<context:component-scan base-package="com.ticket.test"></context:component-scan>
+	<context:component-scan base-package="com.ticket.control"></context:component-scan>
+	<context:component-scan base-package="com.ticket.entity"></context:component-scan>
+	<context:component-scan base-package="com.ticket.dao"></context:component-scan>
+	<bean id="viewResovle"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		abstract="false" lazy-init="default" autowire="default">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.InternalResourceView"></property>
+		<property name="prefix" value="/"></property>
+		<property name="suffix" value=".html"></property>
+	</bean>
+
+	<bean id="mappingJackson2HttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="mappingJackson2HttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+	<bean id="jdbcDataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>org.gjt.mm.mysql.Driver</value>
+		</property>
+		<property name="url">  <!-- oa_db -->
+			<value>jdbc:mysql://127.0.0.1:3306/ticket?useUnicode=true&amp;characterEncoding=UTF-8
+			</value>
+		</property>
+		<property name="username">
+			<value>root</value>
+		</property>
+		<property name="password">
+			<value>8909096</value>
+		</property>
+	</bean>
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="jdbcDataSource" />
+		<property name="mapperLocations" value="classpath:com/ticket/dao/*.xml"></property>
+	</bean>
+	<bean name="ScannerName" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.ticket.dao"></property>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+	</bean>
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="jdbcDataSource" />
+	</bean>
+	<!-- 注解方式配置事物 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- 二进制文件上传 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="maxUploadSize" value="104857600" />
+		<property name="maxInMemorySize" value="4096" />
+	</bean>
+</beans>

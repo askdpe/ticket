@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" href="bootstrap1/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="bootstrap1/bootstrap.min.css" />
+<link rel="stylesheet" href="bootstrap1/style.css" />
+<script type="text/javascript" src="bootstrap1/jquery.min.js"></script>
+<script type="text/javascript" src="bootstrap1/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+	<div class="navbar-fixed-top navbar-inverse"
+		style="background: #444; opacity: 0.8;">
+
+		<div class="collapse navbar-collapse navbar-left"
+			style="margin-left: 60px;">
+			<h3 style="color: white; font-family: '楷体';">教 学 巡 查 系 统</h3>
+		</div>
+		<div id="navbar" class="collapse navbar-collapse navbar-right"
+			style="margin-right: 30px; margin-top: 5px;">
+			<ul class="nav navbar-nav">
+				<li style="margin-top: 15px;"><span href="#" target="_parent"
+					style="color: #9d9d9d;" id="showTeacherID">欢迎您！</span></li>
+				<li>
+					<!--<a href="#" target="_parent" >个人中心</a>-->
+					<div class="dropdown" style="margin-left: 15px; margin-top: 8px;">
+						<button type="button" class="btn dropdown-toggle"
+							id="dropdownMenu1" data-toggle="dropdown"
+							style="background-color: #444; color: #9d9d9d;">
+							个人中心 <span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu"
+							aria-labelledby="dropdownMenu1" style="width: auto;">
+							<li role="presentation"><a href="#" target="mainFream">个人信息</a>
+							</li>
+
+							<!-- <li role="presentation">
+									<a role="menuitem" tabindex="-1" href="#" data-toggle="modal" data-target="#changexinxi">修改个人信息</a>
+								</li> -->
+							<li role="presentation"><a role="menuitem" tabindex="-1"
+								href="#" data-toggle="modal" data-target="#changemima">修改密码</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li><a href="login2.html" target="_parent">退出</a></li>
+			</ul>
+		</div>
+
+	</div>
+	<br />
+	<br />
+	<br />
+	<br />
+	<div>
+		<div class="row">
+			<div class="col-md-2">
+				<ul id="main-nav" class="nav nav-tabs nav-stacked"
+					style="margin-left: 60px">
+					<li class="active"><a href="Welcome.html" target="mainFream">
+							<i class="glyphicon glyphicon-th-large"></i> 首页
+					</a></li>
+					<li id="showadmin"><a href="#systemSetting"
+						class="nav-header collapsed" data-toggle="collapse"> <i
+							class="glyphicon glyphicon-cog"></i> 系统管理 <span
+							class="pull-right glyphicon glyphicon-chevron-down"></span>
+					</a>
+						<ul id="systemSetting" class="nav nav-list collapse secondmenu"
+							style="height: 0px;">
+							<li><a href="DianYingGuanLi.html" target="mainFream"><i
+									class="glyphicon glyphicon-user"></i>电影管理</a></li>
+							<li><a href="YingTingGuanLi.html" target="mainFream"><i
+									class="glyphicon glyphicon-th-list"></i>影厅管理</a></li>
+
+						</ul></li>
+					<!--<li>
+							<a href="#wlgl" class="nav-header collapsed" data-toggle="collapse">
+								<i class="glyphicon glyphicon-credit-card"></i> 巡查管理<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+							</a>
+							<ul id="wlgl" class="nav nav-list collapse secondmenu" style="height: 0px;">
+								<li id="showxunchayuan" style="display:none">
+									<a id="xun_cha" href="javascript:inspect_html()" target="mainFream"><i class="glyphicon glyphicon-search"></i>巡查</a>
+								</li>
+								<li>
+									<a href="XunChaJiLu.html" target="mainFream"><i class="glyphicon glyphicon-th-list"></i>巡查历史查询</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#wlg2" class="nav-header collapsed" data-toggle="collapse">
+								<i class="glyphicon glyphicon-calendar"></i>统计图表<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+							</a>
+							<ul id="wlg2" class="nav nav-list collapse secondmenu" style="height: 0px;">
+								<li>
+									<a href="#" target="mainFream"><i class="glyphicon glyphicon-user"></i>折线图</a>
+								</li>
+								<li>
+									<a href="#" target="mainFream"><i class="glyphicon glyphicon-th-list"></i>树状图</a>
+								</li>
+							</ul>
+						</li>
+					</ul>-->
+			</div>
+			<div class="col-md-10">
+				<iframe src="Welcome.html" name="mainFream" frameborder="0"
+					scrolling="auto" height="800px" width="100%"> </iframe>
+			</div>
+		</div>
+
+	</div>
+	<div class="navbar-fixed-bottom">
+		<center>
+			<address>&copy;2017-2018 ISS CopyRight</address>
+		</center>
+	</div>
+
+</body>
+
+</html>

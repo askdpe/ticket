@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>电影票支付</title>
+<link rel="stylesheet" href="./css/index.less.css">
+<link rel="stylesheet" href="./css/bootstrap.css">
+<script src="./js/jquery-2.1.4.min.js"></script>
+<link rel="stylesheet"
+	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script
+	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="./js/layer/2.4/layer.js"></script>
+<style>
+.left, .right {
+	display: table-cell;
+}
+.leftpadding {
+	padding-left: 32px;
+	padding-right: 20px
+}
+.leftpadding2 {
+	padding-left: 226px;
+	font-size: 30px
+}
+.cent {
+	position: relative;
+	left: 50%;
+	top: 50%;
+	width: 200px;
+	height: 100px;
+	margin-left: -100px;
+	margin-top: -50px;
+}
+</style>
+<style type="text/css">
+.shang_tit {
+	width: 100%;
+	height: 75px;
+	text-align: center;
+	line-height: 66px;
+	color: #a3a3a3;
+	font-size: 16px;
+	background: url('img/cy-reward-title-bg.jpg');
+	font-family: 'Microsoft YaHei';
+	margin-top: 7px;
+	margin-right: 2px;
+}
+
+.shang_tit p {
+	color: #a3a3a3;
+	text-align: center;
+	font-size: 16px;
+}
+
+.radiobox {
+	width: 13px;
+	height: 3px;
+	background: url('img/radio1.png');
+	display: block;
+	float: left;
+	margin-top: 5px;
+	margin-right: 14px;
+}
+
+.checked .radiobox {
+	background: url('img/radio2.png');
+}
+
+.shang_payimg {
+	height: 325px;
+	width: 200px;
+	padding: 10px; solid #EA5F00;
+	margin: 0 auto;
+	border-radius: 3px;
+}
+
+.shang_payimg img {
+	display: block;
+	text-align: center;
+	width: 200px;
+	height: 325px;
+}
+
+.shang_payselect {
+	text-align: center;
+	margin: 0 auto;
+	margin-top: 15px;
+	cursor: pointer;
+	height: 60px;
+	width: 280px;
+}
+
+.shang_payselect .pay_item {
+	display: inline-block;
+	margin-right: 10px;
+	float: left;
+}
+</style>
+<script type="application/javascript">
+	$(function() {
+		 	$.ajax({
+				type : "post",
+				url : "/Ticket/userBuyFilm/getfilmpay.action",
+				success : function(result) {
+				 	var obj=JSON.parse(result);
+				 	 var spanid;
+					$.each(obj,function(index,value){
+						if(index == "unlockseat_time"){
+							var unlockseat_time=value;
+							var InterValObj; 
+							InterValObj =  setInterval(GetRTime,1000);
+							function GetRTime(){
+							    var EndTime= new Date(unlockseat_time);
+							    var NowTime = new Date();
+							    var t =EndTime.getTime() - NowTime.getTime();
+							    var m=0;
+							    var s=0;
+							    if(t>=0){
+							      m=Math.floor(t/1000/60%60);
+							      s=Math.floor(t/1000%60);
+							    }
+							    document.getElementById("t_m").innerHTML = m ;
+							    document.getElementById("t_s").innerHTML = s ;
+							    if(document.getElementById("t_s").innerHTML==0 && document.getElementById("t_m").innerHTML==0){
+							    	window.clearInterval(InterValObj);//停止计时器
+							    	timeoutcanclepay();
+							    }
+							}
+						}else if(index == "selectedlist"){
+							var str="";
+							 $.each(value,function(index){						    
+								  str+="<div class='seat'>"+value[index]+"</div>";
+								});
+							 $("#seatinfo").append(str);
+						}else if(index == "price"){
+							var tickectsnum=$("#tickects_num").html();
+							var totprice=value*tickectsnum;
+							$("#totalprice").text(totprice); 
+							$("#totalprice2").text('￥'+totprice); 
+							$("#totalprice3").text('￥'+totprice); 
+						}else if(index == "ticket_id"){
+							ticket_id = value;
+						}else{
+							spanid="#"+index;
+							$(spanid).text(value); 
+						}
+						$.ajax({
+							type : "post",
+							url : "/Ticket/userBuyFilm/getfilminfo.action",
+							success : function(result) {
+							 	var obj=JSON.parse(result);
+							 	 var spanid;
+								$.each(obj,function(index,value){
+									if(index == "film_picture"){
+										$("#film_picture").attr("src",value);
+									}else{
+										spanid="#"+index;
+										$(spanid).text(value); 
+									}
+								});
+							},
+							error : function() {
+								alert("获取服务器失败");
+							} 
+						}); 
+						
+					});
+				},
+				error : function() {
+					alert("获取服务器失败");
+				} 
+			}); 
+});
+	var ticket_id;
+	var film_id;
+	var filmticket_id;
+	function payssuccess(){
+		var pay_time = getNowDate();
+		$.ajax({
+			type : "post",
+			url : "/Ticket/userBuyFilm/getfilmticketinfo.action",
+			data : {
+   				"ticket_id" : ticket_id,
+   				"paytype" : paytype,
+   				"pay_time" : pay_time
+   			},
+			success : function(result) {
+				if(result=="支付失败" || result=="订单已取消" ||result=="支付超时，订单已取消" || result=="支付超时，订单取消失败"){
+					$("#myModal").modal("hide");
+					$("#filmticketpaystate").empty();
+					var str="<span>"+result+"</span>"
+					$("#filmticketpaystate").append(str);
+					$("#paybtn").empty();
+					var str="<a href='javascript:void(0)' class='submit-button'> 不可支付 </a>"
+					$("#paybtn").append(str);
+				} else if(result=="已支付成功"){
+					$("#myModal").modal("hide");
+					$("#filmticketpaystate").empty();
+					var str="<span>已支付，请勿重复提交</span>"
+					$("#filmticketpaystate").append(str);
+					$("#paybtn").empty();
+					var str="<a href='javascript:void(0)' class='submit-button'> 已支付成功 </a>"
+					$("#paybtn").append(str);
+				} else {
+					var obj=JSON.parse(result);
+					$.each(obj,function(index,value){
+						if(index == "film_id"){
+							film_id=value;
+						}
+						if(index == "ticket_id"){
+							ticket_id=value;
+						}
+					});
+					$("#myModal").modal("hide");
+					$("#myModal2").modal("show");
+					$("#filmticket_id").text(film_id+ticket_id);
+					$("#filmticketpaystate").empty();
+					filmticket_id=film_id+ticket_id;
+					var str="<span>购票成功，请到影院登录票圈系统取票，出票号"+filmticket_id+"</span>"
+					$("#filmticketpaystate").append(str);
+					$("#paybtn").empty();
+					var str="<a href='javascript:void(0)' class='submit-button'> 已支付成功 </a>"
+					$("#paybtn").append(str);
+				}
+				
+			},
+			error : function() {
+				alert("获取服务器失败");
+			} 
+		}); 
+	}
+	function timeoutcanclepay() {
+			$.ajax({
+				type : "post",
+				url : "/Ticket/userBuyFilm/canclefpayinfo.action",
+				data : {
+	   				"ticket_id" : ticket_id,
+	   			},
+				success : function(result) {
+					layer.msg("支付时间已到，订单自动取消", {
+	                	icon : 2,
+	                	time : 5000
+	        		}); 
+					if(result=="取消支付订单成功" || result=="订单已取消"){
+						layer.msg(result, {
+		                	icon : 1,
+		                	time : 1000
+		        		}); 
+						$("#filmticketpaystate").empty();
+						var str="<span>支付时间已到，订单已成功自动取消</span>"
+						$("#filmticketpaystate").append(str);
+						$("#paybtn").empty();
+						$("#paybtn").append("");
+					} else{
+						layer.msg(result, {
+		                	icon : 2,
+		                	time : 1000
+		        		});
+					}
+					
+				},
+				error : function() {
+					alert("获取服务器失败");
+				} 
+			}); 
+	}
+	function canclepay() {
+		layer.confirm('确认放弃支付？', function() {
+			$.ajax({
+				type : "post",
+				url : "/Ticket/userBuyFilm/canclefpayinfo.action",
+				data : {
+	   				"ticket_id" : ticket_id,
+	   			},
+				success : function(result) {
+					if(result=="取消支付订单成功" || result=="订单已取消"){
+						layer.msg(result, {
+		                	icon : 1,
+		                	time : 1000
+		        		}); 
+						$("#filmticketpaystate").empty();
+						var str="<span>"+result+"</span>"
+						$("#filmticketpaystate").append(str);
+						$("#paybtn").empty();
+						$("#paybtn").append("");
+					} else{
+						layer.msg(result, {
+		                	icon : 2,
+		                	time : 1000
+		        		});
+					}
+					
+				},
+				error : function() {
+					alert("获取服务器失败");
+				} 
+			}); 
+		})	
+	}
+	function getNowDate() {
+	    var date = new Date();
+	    var seperator1 = "-";
+	    var seperator2 = ":";
+	    var month = date.getMonth() + 1;
+	    var strDate = date.getDate();
+	    if (month >= 1 && month <= 9) {
+	        month = "0" + month;
+	    }
+	    if (strDate >= 0 && strDate <= 9) {
+	        strDate = "0" + strDate;
+	    }
+	    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+	            + " " + date.getHours() + seperator2 + date.getMinutes()
+	            + seperator2 + date.getSeconds();
+	    return currentdate;
+	}
+</script>
+</head>
+<body>
+</head>
+<body>
+	<div class="container">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="#">票圈儿</a>
+		</div>
+		<div class="row">
+			<div class="center-wrap">
+				<div class="seat-tips" id="filmticketpaystate">
+					<div class="time-info">
+						剩余支付时间
+						 <span><i id="t_m"></i>:<i id="t_s"></i></span>
+					</div>
+					请您确认您的订单信息，并请在5分钟内完成付款，如超时系统将自动释放已选座位。
+				</div>
+				<div class="order-table">
+					<table>
+						<tbody>
+							<tr class="menu">
+								<td class="movie">电影</td>
+								<td class="changci">场次</td>
+								<td class="seat">票数/座位</td>
+								<td class="money">金额总计</td>
+								<td class="uname">用户信息</td>
+							</tr>
+							<tr class="info">
+								<td class="movie-wrap">
+									<div class="left">
+										<img id="film_picture" width="120px" heigh="100px" src="">
+									</div>
+									<div class="right">
+										<div class="cent">
+											<ul>
+												<li class="movie-name"><span id="film_name"></span></li>
+												<li>语言：<span id="film_language"></span></li>
+												<li>片长：<span id="film_lenght"></span></li>
+											</ul>
+										</div>
+									</div>
+								</td>
+								<td class="cinema-wrap">
+									<div class="cinema-name">
+										<span id="theatre_name"></span>
+									</div>
+									<div class="house">
+										<span id="hall_name"></span>
+									</div>
+									<div class="time">
+										<span id="beon_time"></span>
+									</div>
+								</td>
+								<td class="seat-wrap">
+									<div class="count">
+										<span id="tickects_num"></span>张
+									</div>
+									<div id="seatinfo"></div>
+								</td>
+								<td class="money-wrap">
+									<div class="money">
+										<div class="main M-main-price" data-money="104">
+											￥<span id="totalprice"></span>
+										</div>
+										<div class="other"></div>
+									</div>
+								</td>
+								<td class="phone-wrap">
+									<div class="phone">
+										<span id="uname"></span>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="price-info">
+						<span class="curr-money"> 实付款:<span class="price M-price"
+							id="totalprice2"></span>
+						</span>
+					</div>
+					<div class="" id="paybtn">
+					<a href="javascript:canclepay()" ><img src="img/cancle.jpg" style="float: right; margin-left:20px;"> </a>
+					<a href="javascript:void(0)" data-toggle="modal"
+						data-target="#myModal" class="submit-button"> 确认订单，立即支付 </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	var paytype="alipay";
+		$(function() {
+			$(".pay_item").click(
+					function() {
+						$(this).addClass('checked').siblings('.pay_item')
+								.removeClass('checked');
+						var dataid = $(this).attr('data-id');
+						paytype = $(this).attr('data-id');
+						$(".shang_payimg img").attr("src",
+								"img/" + dataid + "img.jpg");
+						$("#shang_pay_txt").text(
+								dataid == "alipay" ? "支付宝" : "微信");
+					});
+		});
+	</script>
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">
+					影院订票单
+					</h4>
+				</div>
+				<div class="modal-body">
+					购票成功，请到影院登录票圈系统取票，出票号<span id="filmticket_id"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary" >确认</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel">
+						<span class="curr-money leftpadding2">付款:<span class="price M-price"
+							id="totalprice3"></span>
+						</span>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class="shang_payimg">
+						<img src="./img/alipayimg.jpg" alt="扫码支持" title="扫一扫">
+					</div>
+					<div class="shang_payselect">
+						<div class="pay_item" data-id="alipay">
+							 <span class="pay_logo"><img class="leftpadding"
+								src="./img/alipay.jpg" alt="支付宝"></span>
+						</div>
+						<div class="pay_item" data-id="weipay">
+							 <span class="pay_logo"><img
+								src="./img/wechat.jpg" alt="微信"></span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary" onclick="javascript:payssuccess();">确认支付</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+</body>
+</html>

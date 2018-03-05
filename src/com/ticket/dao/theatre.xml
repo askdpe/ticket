@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ticket.dao.ITheatreMapper">
+	<resultMap type="com.ticket.entity.Theatre" id="TheatreResults">
+		<id column="theatre_id" property="theatre_id" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="theatre_name" property="theatre_name" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="theatre_address" property="theatre_address"
+			jdbcType="VARCHAR" javaType="String" />
+		<result column="zone_id" property="zone_id" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="theatre_head" property="theatre_head" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="theatre_phone" property="theatre_phone"
+			jdbcType="VARCHAR" javaType="String" />
+		<result column="theatre_account" property="theatre_account"
+			jdbcType="VARCHAR" javaType="String" />
+		<result column="theatre_pwd" property="theatre_pwd" jdbcType="VARCHAR"
+			javaType="String" />
+		<result column="theatre_picture" property="theatre_picture"
+			jdbcType="VARCHAR" javaType="String" />
+		<result column="theatre_status" property="theatre_status"
+			jdbcType="VARCHAR" javaType="String" />
+		<result column="theatre_licence" property="theatre_licence"
+			jdbcType="VARCHAR" javaType="String" />
+		<result column="theatre_registertime" property="theatre_registertime"
+			jdbcType="VARCHAR" javaType="String" />
+	</resultMap>
+	<!-- theatre_id, theatre_name, theatre_address, zone_id, theatre_head, theatre_phone, 
+		theatre_email, theatre_account, theatre_pwd, theatre_picture, theatre_licence, 
+		theatre_statust, theatre_registertime -->
+	<insert id="signUpForTheatre" parameterType="com.ticket.entity.Theatre">
+		insert into theatre
+		values(#{theatre_id},#{theatre_name},#{theatre_address},#{zone_id},#{theatre_head},#{theatre_phone},#{theatre_email},#{theatre_account},#{theatre_pwd},#{theatre_picture},#{theatre_licence},default,#{theatre_registertime},null);
+	</insert>
+	<select id="isExistTheTheatre" resultMap="TheatreResults"
+		parameterType="com.ticket.entity.Theatre">
+		select * from theatre where theatre_name =
+		#{theatre_name} and
+		theatre_address = #{theatre_address};
+	</select>
+	<select id="getTheatreInfoAll" resultMap="TheatreResults">
+		select * from theatre
+		order by theatre_name asc;
+	</select>
+	<select id="getMyTheatreInfoAll" resultMap="TheatreResults"
+		parameterType="String">
+		select * from theatre where theatre_id = #{0};
+	</select>
+	<update id="updateTheTheatreStatust" parameterType="String">
+		update
+		theatre set theatre_status = #{0} where theatre_id = #{1};
+	</update>
+	<insert id="putTheatreIntoLogin" parameterType="com.ticket.entity.Theatre">
+		insert into login
+		values(#{theatre_account},#{theatre_pwd},'theatre',null,#{theatre_picture});
+	</insert>
+</mapper>
